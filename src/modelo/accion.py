@@ -1,0 +1,14 @@
+from sqlalchemy import *
+from sqlalchemy.orm import relationship
+from .declarative_base import Base
+from datetime import datetime
+
+
+class Accion(Base):
+    __tablename__ = 'accion'
+    id = Column(Integer, primary_key=True)
+    mantenimiento = Column(String)
+    kilometraje = Column(Integer)
+    fecha = Column(DateTime())
+    costo = Column(Float)
+    auto = Column(Integer, ForeignKey('auto.id'))
