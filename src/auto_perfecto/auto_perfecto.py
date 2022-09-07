@@ -1,6 +1,7 @@
 '''
 Esta clase es tan sólo un mock con datos para probar la interfaz
 '''
+from src.modelo.declarative_base import Session, engine, Base
 class auto_perfecto():
 
     def __init__(self):
@@ -9,6 +10,7 @@ class auto_perfecto():
         self.mantenimientos = []
         self.acciones = []
         self.gastos = []
+        Base.metadata.create_all(engine)
 
     def dar_autos(self):
         return self.autos.copy()
@@ -17,8 +19,7 @@ class auto_perfecto():
         return self.autos[id_auto].copy()
     
     def crear_auto(self, marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
-        self.autos.append({'Marca':marca, 'Placa':placa, 'Modelo': modelo, 'Kilometraje': float(kilometraje), \
-                           'Color':color, 'Cilindraje': cilindraje, 'TipoCombustible':tipo_combustible, 'Vendido': False})
+        return False
 
     def editar_auto(self, id, marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
         self.autos[id]['Marca'] = marca
@@ -62,7 +63,7 @@ class auto_perfecto():
         return self.mantenimientos.copy()
 
     def aniadir_mantenimiento(self, nombre, descripcion):
-        self.mantenimientos.append({'Nombre': nombre, 'Descripcion': descripcion})
+        return False
     
     def editar_mantenimiento(self, id, nombre, descripcion):
         self.mantenimientos[id]['Nombre'] = nombre

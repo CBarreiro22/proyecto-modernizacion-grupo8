@@ -5,7 +5,7 @@
 import unittest
 
 #Importar la clase Logica_mock para utilizarla en las pruebas
-from src.logica.Logica_mock import Logica_mock
+from src.auto_perfecto.Logica_mock import Logica_mock
 
 #Clase de ejemplo, debe tener un nombre que termina con el sufijo TestCase, y conservar la herencia
 class ExampleTestCase(unittest.TestCase):
