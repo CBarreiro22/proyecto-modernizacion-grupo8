@@ -12,5 +12,5 @@ class Auto(Base):
     kilometraje = Column(Integer)
     color = Column(String)
     cilindraje = Column(Integer)
-    combutible = Column(String)
+    combustible = Column(String)
     acciones = relationship('Accion', cascade='all, delete, delete-orphan')
