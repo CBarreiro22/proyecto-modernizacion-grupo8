@@ -14,7 +14,7 @@ class AutomovilTestCase(unittest.TestCase):
         self.session = Session()
         renault = Auto(marca="renault", placa="JXL539", modelo=1970, kilometraje=3200, color="negro", cilindraje=2000,
                        combustible="gasolina")
-        mini = Auto(marca="mini", placa="JXL539", modelo=1970, kilometraje=3200, color="negro", cilindraje=2000,
+        mini = Auto(marca="mini", placa="JXL531", modelo=1970, kilometraje=3200, color="negro", cilindraje=2000,
                     combustible="gasolina")
         self.session.add(renault)
         self.session.add(mini)
@@ -39,7 +39,7 @@ class AutomovilTestCase(unittest.TestCase):
         autos = self.logica.dar_autos()
         self.assertEqual(len(autos), 2)
 
-#    def test_crear_automovil_01(self):
-#        self.logica.crear_auto("renault", "JXL539", 1970, 3200, "negro", 2000, "gasolina")
-#        automovil = self.Session.query(Auto).filter(Auto.placa == 'JXL539').first()
-#        self.assertEqual(automovil.placa, "JXL539")
+    def test_crear_automovil_01(self):
+        self.logica.crear_auto("renault", "JXL530", 1970, 3200, "negro", 2000, "gasolina")
+        automovil = self.session.query(Auto).filter(Auto.placa == 'JXL530').first()
+        self.assertEqual(automovil.placa, "JXL539")
