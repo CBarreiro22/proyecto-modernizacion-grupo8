@@ -43,3 +43,8 @@ class AutomovilTestCase(unittest.TestCase):
         self.logica.crear_auto("renault", "JXL530", 1970, 3200, "negro", 2000, "gasolina")
         automovil = self.session.query(Auto).filter(Auto.placa == 'JXL530').first()
         self.assertEqual(automovil.placa, "JXL530")
+
+    def test_no_deberia_crear_automovil_02(self):
+        self.logica.crear_auto(None, "JXL120", None, None, None, None, None)
+        automovil = self.session.query(Auto).filter(Auto.placa == 'JXL120').first()
+        self.assertIsNone(automovil)
