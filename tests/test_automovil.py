@@ -48,3 +48,38 @@ class AutomovilTestCase(unittest.TestCase):
         self.logica.crear_auto(None, "JXL120", None, None, None, None, None)
         automovil = self.session.query(Auto).filter(Auto.placa == 'JXL120').first()
         self.assertIsNone(automovil)
+
+    def test_no_deberia_crear_automovil_03(self):
+        self.logica.crear_auto("re", "JXL530", 1970, 3200, "negro", 2000, "gasolina")
+        automovil = self.session.query(Auto).filter(Auto.placa == 'JXL530').first()
+        self.assertIsNone(automovil)
+
+    def test_no_deberia_crear_automovil_04(self):
+        self.logica.crear_auto("renault", "JX", 1970, 3200, "negro", 2000, "gasolina")
+        automovil = self.session.query(Auto).filter(Auto.placa == 'JX').first()
+        self.assertIsNone(automovil)
+
+    def test_no_deberia_crear_automovil_05(self):
+        self.logica.crear_auto("renault", "JXL530", 197, 3200, "negro", 2000, "gasolina")
+        automovil = self.session.query(Auto).filter(Auto.placa == 'JXL530').first()
+        self.assertIsNone(automovil)
+
+    def test_no_deberia_crear_automovil_06(self):
+        self.logica.crear_auto("renault", "JXL530", 1970, -2, "negro", 2000, "gasolina")
+        automovil = self.session.query(Auto).filter(Auto.placa == 'JXL530').first()
+        self.assertIsNone(automovil)
+
+    def test_no_deberia_crear_automovil_07(self):
+        self.logica.crear_auto("renault", "JXL530", 1970, 3200, "ne", 2000, "gasolina")
+        automovil = self.session.query(Auto).filter(Auto.placa == 'JXL530').first()
+        self.assertIsNone(automovil)
+
+    def test_no_deberia_crear_automovil_08(self):
+        self.logica.crear_auto("renault", "JXL530", 1970, 3200, "negro", -2, "gasolina")
+        automovil = self.session.query(Auto).filter(Auto.placa == 'JXL530').first()
+        self.assertIsNone(automovil)
+
+    def test_no_deberia_crear_automovil_09(self):
+        self.logica.crear_auto("renault", "JXL530", 1970, 3200, "negro", 2000, "ga")
+        automovil = self.session.query(Auto).filter(Auto.placa == 'JXL530').first()
+        self.assertIsNone(automovil)
