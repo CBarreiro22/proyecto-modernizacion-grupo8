@@ -36,3 +36,13 @@ class MantenimientoTestCase(unittest.TestCase):
                                                     "preservar la seguridad y ahorrar combustible.")
         mantenimiento = self.session.query(Mantenimiento).filter(Mantenimiento.nombre == 'llanta').first()
         self.assertIsNone(mantenimiento)
+
+    def test_no_deberia_crear_mantenimiento_por_longitud_nombre_03(self):
+        nombre = "llanta michelinMichelin, Michelin es el fabricante que comercializa el mayor número de modelos muy " \
+                 "eficientes que cuentan con la máxima calificación, concretamente, el 52%. Asimismo, según este " \
+                 "estudio, esta firma cuenta con un 40% de neumáticos eficientes con calificación B y muy pocos de " \
+                 "notas inferiores "
+        self.logica.aniadir_mantenimiento(nombre, "cambiar presión de llantas ")
+        mantenimiento = self.session.query(Mantenimiento).filter(Mantenimiento.nombre == nombre).first()
+        self.assertIsNone(mantenimiento)
+
