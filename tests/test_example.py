@@ -1,4 +1,5 @@
-﻿#Archivo de ejemplo para las pruebas unitarias.
+﻿'''
+#Archivo de ejemplo para las pruebas unitarias.
 #El nombre del archivo debe iniciar con el prefijo test_
 
 #Importar unittest para crear las pruebas unitarias
@@ -23,3 +24,4 @@ class ExampleTestCase(unittest.TestCase):
 	def test_nombre_mantenimiento_02(self):
 		mantenimientos = self.logica.dar_mantenimientos()
 		self.assertEquals(mantenimientos[0]['Nombre'], "Seguros")		
+'''
