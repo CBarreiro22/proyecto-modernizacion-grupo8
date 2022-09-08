@@ -24,9 +24,9 @@ class auto_perfecto():
         return self.autos[id_auto].copy()
     
     def crear_auto(self, marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
-        
-        session.add(Auto (marca=marca, placa=placa, modelo=modelo, kilometraje=kilometraje, color=color, cilindraje=cilindraje, combustible=tipo_combustible))
-        session.commit()
+        if(marca is not None and placa is not None and modelo is not None and kilometraje is not None and color is not None and cilindraje is not None and tipo_combustible is not None):
+            session.add(Auto (marca=marca, placa=placa, modelo=modelo, kilometraje=kilometraje, color=color, cilindraje=cilindraje, combustible=tipo_combustible))
+            session.commit()
         
         
 
