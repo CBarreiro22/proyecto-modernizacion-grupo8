@@ -2,6 +2,7 @@
 Esta clase es tan sólo un mock con datos para probar la interfaz
 '''
 from src.modelo import mantenimiento
+from src.modelo.auto import Auto
 from src.modelo.mantenimiento import Mantenimiento
 from src.modelo.declarative_base import session, engine, Base
 class auto_perfecto():
@@ -16,7 +17,8 @@ class auto_perfecto():
         
 
     def dar_autos(self):
-        return self.autos.copy()
+        autos = [elem.__dict__ for elem in session.query(Auto).all()]
+        return autos
 
     def dar_auto(self, id_auto):
         return self.autos[id_auto].copy()

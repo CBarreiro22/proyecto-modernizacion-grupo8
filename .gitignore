@@ -21,6 +21,7 @@ __pycache__/*
 .settings
 .idea
 tags
+aplicacion.sqlite
 
 # Package files
 *.egg
