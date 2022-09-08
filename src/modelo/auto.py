@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from .declarative_base import Base
+from src.modelo.accion import Accion 
 
 class Auto(Base):
     __tablename__ = 'auto'
