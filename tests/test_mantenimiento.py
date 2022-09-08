@@ -29,3 +29,10 @@ class MantenimientoTestCase(unittest.TestCase):
         self.logica.aniadir_mantenimiento("llanta", "cambiar presión de llantas")
         mantenimiento = self.session.query(Mantenimiento).filter(Mantenimiento.nombre == 'llanta').first()
         self.assertEqual(mantenimiento.nombre, "llanta")
+
+    def test_no_deberia_crear_mantenimiento_por_longitud_descripcion_02(self):
+        self.logica.aniadir_mantenimiento("llanta", "cambiar presión de llantas, Es necesario mantener una presión de "
+                                                    "inflado adecuada para lograr un desempeño óptimo de la llanta, "
+                                                    "preservar la seguridad y ahorrar combustible.")
+        mantenimiento = self.session.query(Mantenimiento).filter(Mantenimiento.nombre == 'llanta').first()
+        self.assertIsNone(mantenimiento)
