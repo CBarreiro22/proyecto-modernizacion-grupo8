@@ -42,4 +42,4 @@ class AutomovilTestCase(unittest.TestCase):
     def test_crear_automovil_01(self):
         self.logica.crear_auto("renault", "JXL530", 1970, 3200, "negro", 2000, "gasolina")
         automovil = self.session.query(Auto).filter(Auto.placa == 'JXL530').first()
-        self.assertEqual(automovil.placa, "JXL539")
+        self.assertEqual(automovil.placa, "JXL530")
