@@ -88,7 +88,7 @@ class auto_perfecto():
         return self.mantenimientos.copy()
 
     def aniadir_mantenimiento(self, nombre, descripcion):
-        if (len(descripcion) > 30 or len(nombre) > 20):
+        if not descripcion or not nombre:
             return False
         busqueda = session.query(Mantenimiento).filter(
             Mantenimiento.nombre == nombre).all()
