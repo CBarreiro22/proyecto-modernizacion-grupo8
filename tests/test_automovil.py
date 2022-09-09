@@ -50,36 +50,26 @@ class AutomovilTestCase(unittest.TestCase):
         self.assertIsNone(automovil)
 
     def test_no_deberia_crear_automovil_03(self):
-        self.logica.crear_auto("re", "JXL530", 1970, 3200, "negro", 2000, "gasolina")
+        self.logica.crear_auto("500", "JXL530", "A2020*/!#", "3200", "negro", "2000", "gasolina")
         automovil = self.session.query(Automovil).filter(Automovil.placa == 'JXL530').first()
         self.assertIsNone(automovil)
 
     def test_no_deberia_crear_automovil_04(self):
-        self.logica.crear_auto("renault", "JX", 1970, 3200, "negro", 2000, "gasolina")
+        self.logica.crear_auto("renault", "JX", "2020", "-1", "negro", "2000", "gasolina")
         automovil = self.session.query(Automovil).filter(Automovil.placa == 'JX').first()
         self.assertIsNone(automovil)
 
     def test_no_deberia_crear_automovil_05(self):
-        self.logica.crear_auto("renault", "JXL530", 197, 3200, "negro", 2000, "gasolina")
+        self.logica.crear_auto("renault", "JXL530", "2020", "3200", "Azul", "RFS2000", "gasolina")
         automovil = self.session.query(Automovil).filter(Automovil.placa == 'JXL530').first()
         self.assertIsNone(automovil)
 
     def test_no_deberia_crear_automovil_06(self):
-        self.logica.crear_auto("renault", "JXL530", 1970, -2, "negro", 2000, "gasolina")
-        automovil = self.session.query(Automovil).filter(Automovil.placa == 'JXL530').first()
+        self.logica.crear_auto("", "", "1971", "-2", "negro", "2000", "gasolina")
+        automovil = self.session.query(Automovil).filter(Automovil.modelo == '1971').first()
         self.assertIsNone(automovil)
-
+        
     def test_no_deberia_crear_automovil_07(self):
-        self.logica.crear_auto("renault", "JXL530", 1970, 3200, "ne", 2000, "gasolina")
-        automovil = self.session.query(Automovil).filter(Automovil.placa == 'JXL530').first()
-        self.assertIsNone(automovil)
-
-    def test_no_deberia_crear_automovil_08(self):
-        self.logica.crear_auto("renault", "JXL530", 1970, 3200, "negro", -2, "gasolina")
-        automovil = self.session.query(Automovil).filter(Automovil.placa == 'JXL530').first()
-        self.assertIsNone(automovil)
-
-    def test_no_deberia_crear_automovil_09(self):
-        self.logica.crear_auto("renault", "JXL530", 1970, 3200, "negro", 2000, "ga")
-        automovil = self.session.query(Automovil).filter(Automovil.placa == 'JXL530').first()
+        self.logica.crear_auto("KIA", "ASF488", "1971", "200", "negro", "-23", "gasolina")
+        automovil = self.session.query(Automovil).filter(Automovil.marca == 'KIA').first()
         self.assertIsNone(automovil)

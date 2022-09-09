@@ -48,27 +48,30 @@ class auto_perfecto():
         del self.autos[id]
 
     def validar_crear_editar_auto(self, id, marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
-        validacion = True
-        if marca is None or placa is None or modelo is None or kilometraje is None or color is None or cilindraje is None or tipo_combustible is None:
-            validacion =  False
-        elif int(modelo) < 1886:
-            validacion = False
-        elif int(kilometraje) < 0 or int(kilometraje) > 999999999:
-            validacion = False
-        return validacion
+        return self.validar_crear_auto(marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible)
 
     def validar_crear_auto(self, marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
-        validacion = True
-        if marca is None or placa is None or modelo is None or kilometraje is None or color is None or cilindraje is None or tipo_combustible is None:
-            validacion = False
-        elif int(modelo) < 1886:
-            validacion = False
-        elif int(kilometraje) < 0 or int(kilometraje) > 999999999:
-            validacion = False
-        return validacion
 
-    def valida_tipo_datos_auto(self, modelo, kilometraje, color, cilindraje, tipo_combustible):
-        return isinstance(modelo, int) and isinstance(kilometraje, int) and isinstance(color, str) and isinstance(cilindraje, int) and isinstance(tipo_combustible, str)
+        if not marca  or not placa or not modelo or not kilometraje  or not color or not cilindraje  or not tipo_combustible:
+            return False
+        elif self.valida_tipo_datos_auto(modelo, kilometraje, cilindraje) == False:
+
+            return False
+        elif int(modelo) < 1886:
+
+            return False
+        elif int(kilometraje) < 0 or int(kilometraje) > 999999999:
+            return False
+        elif int(cilindraje) < 0 or int (cilindraje) > 999999999:
+            return False
+        return True
+
+    def valida_tipo_datos_auto(self,  modelo, kilometraje, cilindraje):
+
+        try:
+            return type(int(modelo)) is int and type(int(kilometraje)) is int and type(int(cilindraje)) is int
+        except:
+            return False
 
     def validar_vender_auto(self, id, kilometraje_venta, valor_venta):
         validacion = False
@@ -87,9 +90,11 @@ class auto_perfecto():
     def aniadir_mantenimiento(self, nombre, descripcion):
         if (len(descripcion) > 30 or len(nombre) > 20):
             return False
-        busqueda = session.query(Mantenimiento).filter(Mantenimiento.nombre == nombre).all()
+        busqueda = session.query(Mantenimiento).filter(
+            Mantenimiento.nombre == nombre).all()
         if len(busqueda) == 0:
-            mantenimiento = Mantenimiento(nombre=nombre, descripcion=descripcion)
+            mantenimiento = Mantenimiento(
+                nombre=nombre, descripcion=descripcion)
             session.add(mantenimiento)
             session.commit()
             return True
