@@ -2,49 +2,33 @@
 Esta clase es tan sólo un mock con datos para probar la interfaz
 '''
 from src.modelo import mantenimiento
-from src.modelo.auto import Auto
+from src.modelo.automovil import Automovil
 from src.modelo.mantenimiento import Mantenimiento
 from src.modelo.declarative_base import session, engine, Base
+
+
 class auto_perfecto():
 
     def __init__(self):
-        #Este constructor contiene los datos falsos para probar la interfaz
+        # Este constructor contiene los datos falsos para probar la interfaz
         self.autos = []
         self.mantenimientos = []
         self.acciones = []
         self.gastos = []
         Base.metadata.create_all(engine)
-        
 
     def dar_autos(self):
-        autos = [elem.__dict__ for elem in session.query(Auto).all()]
+        autos = [elem.__dict__ for elem in session.query(Automovil).all()]
         return autos
 
     def dar_auto(self, id_auto):
         return self.autos[id_auto].copy()
-    
+
     def crear_auto(self, marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
-        if(marca is None or placa is None or modelo is None or kilometraje is None or color is None or cilindraje is None or tipo_combustible is None):
-            return False
-        elif (len (marca) < 6 or len(marca)>10):
-            return False
-        elif (len (placa)< 3 or len(placa)>255):
-            return False
-        elif(modelo<1886):
-            return False
-        elif(kilometraje<0 or kilometraje>999999999):
-            return False
-        elif(len(color)<3 or len(color)>255):
-            return False
-        elif(cilindraje<0):
-            return False
-        elif(len(tipo_combustible) <3 or len(tipo_combustible)>255):
-            return False
-        else:
-            session.add(Auto (marca=marca, placa=placa, modelo=modelo, kilometraje=kilometraje, color=color, cilindraje=cilindraje, combustible=tipo_combustible))
+        if self.validar_crear_auto(marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
+            session.add(Automovil(marca=marca, placa=placa, modelo=modelo, kilometraje=kilometraje, color=color,
+                                  cilindraje=cilindraje, combustible=tipo_combustible))
             session.commit()
-        
-        
 
     def editar_auto(self, id, marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
         self.autos[id]['Marca'] = marca
@@ -62,16 +46,30 @@ class auto_perfecto():
 
     def eliminar_auto(self, id):
         del self.autos[id]
-        
+
     def validar_crear_editar_auto(self, id, marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
-        validacion = False
-        try:
-            float(kilometraje)
-            validacion = True
-        except ValueError:
-            return False
+        validacion = True
+        if marca is None or placa is None or modelo is None or kilometraje is None or color is None or cilindraje is None or tipo_combustible is None:
+            validacion =  False
+        elif int(modelo) < 1886:
+            validacion = False
+        elif int(kilometraje) < 0 or int(kilometraje) > 999999999:
+            validacion = False
         return validacion
-        
+
+    def validar_crear_auto(self, marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
+        validacion = True
+        if marca is None or placa is None or modelo is None or kilometraje is None or color is None or cilindraje is None or tipo_combustible is None:
+            validacion = False
+        elif int(modelo) < 1886:
+            validacion = False
+        elif int(kilometraje) < 0 or int(kilometraje) > 999999999:
+            validacion = False
+        return validacion
+
+    def valida_tipo_datos_auto(self, modelo, kilometraje, color, cilindraje, tipo_combustible):
+        return isinstance(modelo, int) and isinstance(kilometraje, int) and isinstance(color, str) and isinstance(cilindraje, int) and isinstance(tipo_combustible, str)
+
     def validar_vender_auto(self, id, kilometraje_venta, valor_venta):
         validacion = False
         try:
@@ -82,7 +80,6 @@ class auto_perfecto():
             validacion = False
 
         return validacion
-        
 
     def dar_mantenimientos(self):
         return self.mantenimientos.copy()
@@ -92,29 +89,29 @@ class auto_perfecto():
             return False
         busqueda = session.query(Mantenimiento).filter(Mantenimiento.nombre == nombre).all()
         if len(busqueda) == 0:
-             mantenimiento = Mantenimiento(nombre=nombre, descripcion = descripcion)
-             session.add(mantenimiento)
-             session.commit()
-             return True
+            mantenimiento = Mantenimiento(nombre=nombre, descripcion=descripcion)
+            session.add(mantenimiento)
+            session.commit()
+            return True
         else:
             return False
-    
+
     def editar_mantenimiento(self, id, nombre, descripcion):
         self.mantenimientos[id]['Nombre'] = nombre
         self.mantenimientos[id]['Descripcion'] = descripcion
-    
+
     def eliminar_mantenimiento(self, id):
         del self.mantenimientos[id]
 
     def validar_crear_editar_mantenimiento(self, nombre, descripcion):
         validacion = False
-        if nombre!=None and descripcion!=None:
+        if nombre != None and descripcion != None:
             validacion = True
         return validacion
-        
+
     def dar_acciones_auto(self, id_auto):
         marca_auto = self.autos[id_auto]['Marca']
-        return list(filter(lambda x: x['Auto']==marca_auto, self.acciones))
+        return list(filter(lambda x: x['Auto'] == marca_auto, self.acciones))
 
     def dar_accion(self, id_auto, id_accion):
         return self.dar_acciones_auto(id_auto)[id_accion].copy()
@@ -136,7 +133,7 @@ class auto_perfecto():
         self.acciones[id_accion]['Fecha'] = fecha
 
     def eliminar_accion(self, id_auto, id_accion):
-        marca_auto =self.autos[id_auto]['Marca']
+        marca_auto = self.autos[id_auto]['Marca']
         i = 0
         id = 0
         while i < len(self.acciones):
@@ -145,14 +142,13 @@ class auto_perfecto():
                     self.acciones.pop(i)
                     return True
                 else:
-                    id+=1
-            i+=1
-        
+                    id += 1
+            i += 1
+
         return False
-                
 
         del self.accion[id_accion]
-        
+
     def validar_crear_editar_accion(self, id_accion, mantenimiento, id_auto, valor, kilometraje, fecha):
         validacion = False
         try:
@@ -166,9 +162,9 @@ class auto_perfecto():
 
     def dar_reporte_ganancias(self, id_auto):
         n_auto = self.autos[id_auto]['Marca']
-        
+
         for gasto in self.gastos:
             if gasto['Marca'] == n_auto:
                 return gasto['Gastos'], gasto['ValorKilometro']
 
-        return [('Total',0)], 0
+        return [('Total', 0)], 0

@@ -11,4 +11,4 @@ class Accion(Base):
     kilometraje = Column(Integer)
     fecha = Column(DateTime())
     costo = Column(Float)
-    auto = Column(Integer, ForeignKey('auto.id'))
+    automovil = Column(Integer, ForeignKey('automovil.id'))
