@@ -40,4 +40,8 @@ class MantenimientoTestCase(unittest.TestCase):
         mantenimiento = self.session.query(Mantenimiento).filter(Mantenimiento.descripcion == 'perfecta').first()
         self.assertIsNone(mantenimiento)
 
+    def test_no_deberia_crear_mantenimiento_por_nulos_04(self):
+        self.logica.aniadir_mantenimiento("llanta", "cambiar presión de llantas")
+        self.assertFalse(self.logica.aniadir_mantenimiento("llanta", "cambiar presión de llantas traseras"))
+
 
