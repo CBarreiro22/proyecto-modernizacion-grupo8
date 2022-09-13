@@ -7,7 +7,7 @@ from datetime import datetime
 class Accion(Base):
     __tablename__ = 'accion'
     id = Column(Integer, primary_key=True)
-    mantenimiento = Column(String)
+    mantenimiento = Column(Integer, ForeignKey('mantenimiento.id'))
     kilometraje = Column(Integer)
     fecha = Column(DateTime())
     costo = Column(Float)
