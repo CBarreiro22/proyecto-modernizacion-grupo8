@@ -116,7 +116,7 @@ class auto_perfecto():
         return validacion
 
     def dar_acciones_auto(self, id_auto):
-        marca_auto = self.autos[id_auto]['Marca']
+        marca_auto = self.autos[id_auto]['marca']
         return list(filter(lambda x: x['Auto'] == marca_auto, self.acciones))
 
     def dar_accion(self, id_auto, id_accion):
