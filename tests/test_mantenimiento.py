@@ -1,7 +1,7 @@
 import unittest
 
 from src.auto_perfecto.auto_perfecto import auto_perfecto
-from src.modelo.declarative_base import Session, engine, Base
+from src.modelo.declarative_base import Session
 from src.modelo.mantenimiento import Mantenimiento
 
 
