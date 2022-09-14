@@ -110,7 +110,7 @@ class auto_perfecto():
 
     def validar_crear_editar_mantenimiento(self, nombre, descripcion):
         validacion = False
-        if nombre != None and descripcion != None:
+        if nombre != '' and descripcion != '':
             validacion = True
         return validacion
 
