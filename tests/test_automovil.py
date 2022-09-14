@@ -73,8 +73,8 @@ class AutomovilTestCase(unittest.TestCase):
         self.logica.crear_auto("KIA", "ASF488", "1971", "200", "negro", "-23", "gasolina")
         automovil = self.session.query(Automovil).filter(Automovil.marca == 'KIA').first()
         self.assertIsNone(automovil)
-
+    
     def test_dar_automovil_08(self):
         auto = self.logica.dar_auto(1)
-        automovil = self.session.query(Automovil).filter(Automovil.marca == 'KIA').first()
-        self.assertIsNone(automovil)
+        placa = auto["placa"]
+        self.assertEqual(placa, "JXL531")

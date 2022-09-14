@@ -22,7 +22,8 @@ class auto_perfecto():
         return autos
 
     def dar_auto(self, id_auto):
-        return self.autos[id_auto].copy()
+        autos = self.dar_autos()
+        return autos[id_auto]
 
     def crear_auto(self, marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
         if self.validar_crear_auto(marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
