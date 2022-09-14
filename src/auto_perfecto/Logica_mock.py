@@ -5,11 +5,11 @@ class Logica_mock():
 
     def __init__(self):
         #Este constructor contiene los datos falsos para probar la interfaz
-        self.autos = [{'Marca':'Volkswagen', 'Placa':'KBL000', 'Modelo': '2010', 'Kilometraje': 150000.0, \
-                        'Color':'Rojo', 'Cilindraje': '2000', 'TipoCombustible':'Gasolina', 'Vendido': False, \
+        self.autos = [{'marca':'Volkswagen', 'placa':'KBL000', 'Modelo': '2010', 'Kilometraje': 150000.0, \
+                        'Color':'Rojo', 'Cilindraje': '2000', 'TipoCombustible':'Gasolina', 'vendido': False, \
                         'ValorVenta': 0, 'KilometrajeVenta':0 },
-                    {'Marca':'Renault', 'Placa':'BSQ782', 'Modelo': '2015', 'Kilometraje': 182000.0, \
-                        'Color':'Plateado', 'Cilindraje': '1600', 'TipoCombustible':'Gasolina', 'Vendido': True, \
+                    {'marca':'Renault', 'placa':'BSQ782', 'Modelo': '2015', 'Kilometraje': 182000.0, \
+                        'Color':'Plateado', 'Cilindraje': '1600', 'TipoCombustible':'Gasolina', 'vendido': True, \
                         'ValorVenta': 18000000, 'KilometrajeVenta':195000 }]
         self.mantenimientos = [{'Nombre':'Seguros', 'Descripcion': 'Compra de seguros para automóviles'}, \
                                {'Nombre':"Impuestos", 'Descripcion': 'Impuestos que se deben pagar'}, \
@@ -18,9 +18,9 @@ class Logica_mock():
                         {'Mantenimiento':'Impuestos', 'Auto':'Volkswagen', 'Kilometraje':152000.0, 'Valor':600000.0, 'Fecha':'2022-02-01'},\
                         {'Mantenimiento':'Gasolina', 'Auto':'Volkswagen', 'Kilometraje':150600.0, 'Valor':120000.0, 'Fecha':'2022-01-05'},\
                         {'Mantenimiento':'Gasolina', 'Auto':'Volkswagen', 'Kilometraje':151200.0, 'Valor':120000.0, 'Fecha':'2022-01-28'}]
-        self.gastos = [{'Marca':'Volkswagen', 'Gastos':[('2019',1200000),('2020',1300000), ('2021',2000000), ('2022',2500000), \
+        self.gastos = [{'marca':'Volkswagen', 'Gastos':[('2019',1200000),('2020',1300000), ('2021',2000000), ('2022',2500000), \
                         ('Total',7000000)], 'ValorKilometro': 175},\
-                       {'Marca':'Renault', 'Gastos':[('2020',900000), ('2021',1100000), ('2022',1300000), \
+                       {'marca':'Renault', 'Gastos':[('2020',900000), ('2021',1100000), ('2022',1300000), \
                         ('Total',3300000)], 'ValorKilometro': 128},]
 
     def dar_autos(self):
@@ -91,7 +91,7 @@ class Logica_mock():
         return validacion
         
     def dar_acciones_auto(self, id_auto):
-        marca_auto = self.autos[id_auto]['Marca']
+        marca_auto = self.autos[id_auto]['marca']
         return list(filter(lambda x: x['Auto']==marca_auto, self.acciones))
 
     def dar_accion(self, id_auto, id_accion):

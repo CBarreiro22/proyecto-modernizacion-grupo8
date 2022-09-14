@@ -4,6 +4,7 @@ Esta clase es tan sólo un mock con datos para probar la interfaz
 from src.modelo import mantenimiento
 from src.modelo.automovil import Automovil
 from src.modelo.mantenimiento import Mantenimiento
+from src.modelo.accion import Accion
 from src.modelo.declarative_base import session, engine, Base
 
 
@@ -114,10 +115,10 @@ class auto_perfecto():
         if nombre != '' and descripcion != '':
             validacion = True
         return validacion
-
+    
     def dar_acciones_auto(self, id_auto):
-        marca_auto = self.autos[id_auto]['marca']
-        return list(filter(lambda x: x['Auto'] == marca_auto, self.acciones))
+        acciones = [elem.__dict__ for elem in session.query(Accion).filter(Accion.automovil == id_auto).all()]
+        return acciones
 
     def dar_accion(self, id_auto, id_accion):
         return self.dar_acciones_auto(id_auto)[id_accion].copy()
