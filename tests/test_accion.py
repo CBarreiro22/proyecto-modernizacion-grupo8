@@ -3,6 +3,7 @@ from src.auto_perfecto.auto_perfecto import auto_perfecto
 from src.modelo.accion import Accion
 from src.modelo.declarative_base import *
 from datetime import datetime
+from src.modelo.mantenimiento import Mantenimiento
 
 
 class AccionTestCase(unittest.TestCase):
@@ -12,7 +13,9 @@ class AccionTestCase(unittest.TestCase):
         '''Abre la sesión'''
         self.session = Session()
         accion = Accion(mantenimiento=1, kilometraje= 200, fecha= datetime(2012, 3, 3),costo= 23.44, automovil=0 )
+        mantenimiento = Mantenimiento(nombre="ventanales", descripcion="reparar sistema central")
         self.session.add(accion)
+        self.session.add(mantenimiento)
         self.session.commit()
         self.session.close()
 
@@ -27,12 +30,14 @@ class AccionTestCase(unittest.TestCase):
             self.session.delete(accion)
 
         self.session.commit()
-        self.session.close()
 
-    #TODO- Delete this method, was created to test de dba
-    def test_crearAccion_01(self):
-        self.session.add(Accion(mantenimiento=2, kilometraje=1000,automovil=1 ))
-        self.assertTrue (True) 
+        '''Consulta todos los matenimientos'''
+        busquedaMatenimientos = self.session.query(Mantenimiento).all()
+
+        '''Borra todos los mantenimientos'''
+        for mantenimiento in busquedaMatenimientos:
+            self.session.delete(mantenimiento)
+
         self.session.commit()
         self.session.close()
 

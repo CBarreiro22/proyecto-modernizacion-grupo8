@@ -14,10 +14,10 @@ class Logica_mock():
         self.mantenimientos = [{'Nombre':'Seguros', 'Descripcion': 'Compra de seguros para automóviles'}, \
                                {'Nombre':"Impuestos", 'Descripcion': 'Impuestos que se deben pagar'}, \
                                {'Nombre':"Gasolina", 'Descripcion': 'Abastecimiento de combustible'}]
-        self.acciones = [{'Mantenimiento':'Seguros', 'Auto':'Volkswagen', 'Kilometraje':151000.0, 'Valor':120000.0, 'Fecha':'2022-01-01'},\
-                        {'Mantenimiento':'Impuestos', 'Auto':'Volkswagen', 'Kilometraje':152000.0, 'Valor':600000.0, 'Fecha':'2022-02-01'},\
-                        {'Mantenimiento':'Gasolina', 'Auto':'Volkswagen', 'Kilometraje':150600.0, 'Valor':120000.0, 'Fecha':'2022-01-05'},\
-                        {'Mantenimiento':'Gasolina', 'Auto':'Volkswagen', 'Kilometraje':151200.0, 'Valor':120000.0, 'Fecha':'2022-01-28'}]
+        self.acciones = [{'mantenimiento':'Seguros', 'auto':'Volkswagen', 'kilometraje':151000.0, 'valor':120000.0, 'fecha':'2022-01-01'},\
+                        {'mantenimiento':'Impuestos', 'auto':'Volkswagen', 'kilometraje':152000.0, 'valor':600000.0, 'fecha':'2022-02-01'},\
+                        {'mantenimiento':'Gasolina', 'auto':'Volkswagen', 'kilometraje':150600.0, 'valor':120000.0, 'fecha':'2022-01-05'},\
+                        {'mantenimiento':'Gasolina', 'auto':'Volkswagen', 'kilometraje':151200.0, 'valor':120000.0, 'fecha':'2022-01-28'}]
         self.gastos = [{'marca':'Volkswagen', 'Gastos':[('2019',1200000),('2020',1300000), ('2021',2000000), ('2022',2500000), \
                         ('Total',7000000)], 'ValorKilometro': 175},\
                        {'marca':'Renault', 'Gastos':[('2020',900000), ('2021',1100000), ('2022',1300000), \
@@ -92,7 +92,7 @@ class Logica_mock():
         
     def dar_acciones_auto(self, id_auto):
         marca_auto = self.autos[id_auto]['marca']
-        return list(filter(lambda x: x['Auto']==marca_auto, self.acciones))
+        return list(filter(lambda x: x['auto']==marca_auto, self.acciones))
 
     def dar_accion(self, id_auto, id_accion):
         return self.dar_acciones_auto(id_auto)[id_accion].copy()

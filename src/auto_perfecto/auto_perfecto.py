@@ -115,9 +115,14 @@ class auto_perfecto():
         if nombre != '' and descripcion != '':
             validacion = True
         return validacion
-    
+
     def dar_acciones_auto(self, id_auto):
         acciones = [elem.__dict__ for elem in session.query(Accion).filter(Accion.automovil == id_auto).all()]
+        for index in range(len(acciones)):
+            accion = acciones[index]
+            mantenimientoId = int(accion["mantenimiento"])
+            mantenimiento = session.query(Mantenimiento).filter(Mantenimiento.id == mantenimientoId).first()
+            acciones[index]["mantenimiento"] = mantenimiento.nombre
         return acciones
 
     def dar_accion(self, id_auto, id_accion):
