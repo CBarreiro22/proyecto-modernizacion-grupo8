@@ -42,9 +42,13 @@ class auto_perfecto():
         self.autos[id]['TipoCombustible'] = tipo_combustible
 
     def vender_auto(self, id, kilometraje_venta, valor_venta):
-        self.autos[id]['ValorVenta'] = valor_venta
-        self.autos[id]['KilometrajeVenta'] = kilometraje_venta
-        self.autos[id]['Vendido'] = True
+        auto = self.dar_auto(id)
+        autoId = auto["id"]
+        automovil = session.query(Automovil).filter(Automovil.id == autoId).first()
+        automovil.valorVenta = valor_venta
+        automovil.kilometrajeVenta = kilometraje_venta
+        automovil.vendido = True
+        session.commit()
 
     def eliminar_auto(self, id):
         del self.autos[id]
@@ -54,7 +58,7 @@ class auto_perfecto():
 
     def validar_crear_auto(self, marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
 
-        if not marca  or not placa or not modelo or not kilometraje  or not color or not cilindraje  or not tipo_combustible:
+        if not marca or not placa or not modelo or not kilometraje or not color or not cilindraje or not tipo_combustible:
             return False
         elif self.valida_tipo_datos_auto(modelo, kilometraje, cilindraje) == False:
 
@@ -64,23 +68,24 @@ class auto_perfecto():
             return False
         elif int(kilometraje) < 0 or int(kilometraje) > 999999999:
             return False
-        elif int(cilindraje) < 0 or int (cilindraje) > 999999999:
+        elif int(cilindraje) < 0 or int(cilindraje) > 999999999:
             return False
         return True
 
-    def valida_tipo_datos_auto(self,  modelo, kilometraje, cilindraje):
+    def valida_tipo_datos_auto(self, modelo, kilometraje, cilindraje):
 
         try:
             return type(int(modelo)) is int and type(int(kilometraje)) is int and type(int(cilindraje)) is int
         except:
             return False
 
-    def validar_vender_auto(self, id, kilometraje_venta, valor_venta):
+    def validar_vender_auto(self, id, valor_venta, kilometraje_venta):
         validacion = False
         try:
-            float(kilometraje_venta)
-            float(valor_venta)
-            validacion = True
+            verifivcacion1 = 0 <= int(kilometraje_venta) <= 999999999
+            verifivcacion2 = 0.0 <= float(valor_venta) <= 999999999.0
+            if verifivcacion1 and verifivcacion2:
+                validacion = True
         except ValueError:
             validacion = False
 
@@ -173,10 +178,10 @@ class auto_perfecto():
         return validacion
 
     def dar_reporte_ganancias(self, id_auto):
-        n_auto = self.autos[id_auto]['Marca']
-
-        for gasto in self.gastos:
-            if gasto['Marca'] == n_auto:
-                return gasto['Gastos'], gasto['ValorKilometro']
+        # n_auto = self.autos[id_auto]['Marca']
+        #
+        # for gasto in self.gastos:
+        #     if gasto['Marca'] == n_auto:
+        #         return gasto['Gastos'], gasto['ValorKilometro']
 
         return [('Total', 0)], 0
