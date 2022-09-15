@@ -12,7 +12,8 @@ class AutomovilTestCase(unittest.TestCase):
         self.logica = auto_perfecto()
         '''Abre la sesión'''
         self.session = Session()
-        renault = Automovil(marca="renault", placa="JXL539", modelo=1970, kilometraje=3200, color="negro", cilindraje=2000,
+        renault = Automovil(marca="renault", placa="JXL539", modelo=1970, kilometraje=3200, color="negro",
+                            cilindraje=2000,
                             combustible="gasolina")
         mini = Automovil(marca="mini", placa="JXL531", modelo=1970, kilometraje=3200, color="negro", cilindraje=2000,
                          combustible="gasolina")
@@ -68,7 +69,7 @@ class AutomovilTestCase(unittest.TestCase):
         self.logica.crear_auto("", "", "1971", "-2", "negro", "2000", "gasolina")
         automovil = self.session.query(Automovil).filter(Automovil.modelo == '1971').first()
         self.assertIsNone(automovil)
-        
+
     def test_no_deberia_crear_automovil_07(self):
         self.logica.crear_auto("KIA", "ASF488", "1971", "200", "negro", "-23", "gasolina")
         automovil = self.session.query(Automovil).filter(Automovil.marca == 'KIA').first()
@@ -78,3 +79,30 @@ class AutomovilTestCase(unittest.TestCase):
         auto = self.logica.dar_auto(1)
         placa = auto["placa"]
         self.assertEqual(placa, "JXL531")
+
+    def test_vender_auto_17(self):
+        chevrolet = Automovil(marca="chevrolet", placa="JXL222", modelo=1970, kilometraje=3200, color="negro",
+                              cilindraje=2000, combustible="gasolina", vendido=False)
+        self.session.add(chevrolet)
+        self.session.commit()
+        self.logica.vender_auto(2, 4000, 83.200)
+        automovil = self.session.query(Automovil).filter(Automovil.placa == 'JXL222').first()
+        self.assertEqual(automovil.vendido, True)
+        self.assertEqual(automovil.valorVenta, 83.200)
+        self.assertEqual(automovil.kilometrajeVenta, 4000)
+
+    def test_validar_vender_auto_ok_18(self):
+        validacion = self.logica.validar_vender_auto(2, 999999999.0, 999999999)
+        validacion2 = self.logica.validar_vender_auto(2, 83.200, 4000)
+        self.assertTrue(validacion)
+        self.assertTrue(validacion2)
+
+    def test_validar_vender_auto_fail_19(self):
+        validacion = self.logica.validar_vender_auto(2, 83.200, -4000)
+        validacion2 = self.logica.validar_vender_auto(2, -83.200, 4000)
+        validacion3 = self.logica.validar_vender_auto(2, 8343141341324124.200, 4000)
+        validacion4 = self.logica.validar_vender_auto(2, 24.200, 413413241324123)
+        self.assertFalse(validacion)
+        self.assertFalse(validacion2)
+        self.assertFalse(validacion3)
+        self.assertFalse(validacion4)
