@@ -48,7 +48,26 @@ class AccionTestCase(unittest.TestCase):
     def test_no_deberia_dar_acciones_auto_03(self):
         acciones = self.logica.dar_acciones_auto(1)
         self.assertEqual(len(acciones), 0)
-
+        
+    def test_crear_accion_auto(self):
+        self.logica.crear_accion(mantenimiento=1, id_auto=1, valor=2000, kilometraje=30000,fecha="2022-09-14")
+        accion = self.session.query(Accion).filter(Accion.id==1).first()
+        self.assertEqual (accion.id,1)
+        
+    def test_crear_accion_auto_validacion_01(self):
+        self.logica.crear_accion(mantenimiento=1, id_auto=1, valor=2000, kilometraje=30000,fecha="14-09-2022")
+        accion = self.session.query(Accion).filter(Accion.id==1).first()
+        self.assertEqual (accion.id,1)
+        
+    def test_crear_accion_auto_validacion_02(self):
+        self.logica.crear_accion(mantenimiento=1, id_auto=1, valor=2000, kilometraje=-1,fecha="14-09-2022")
+        accion = self.session.query(Accion).filter(Accion.id==1).first()
+        self.assertEqual (accion.id,1)
+        
+    def test_crear_accion_auto_validacion_03(self):
+        self.logica.crear_accion_validacion_03(mantenimiento=1, id_auto=1, valor=-1, kilometraje=-1,fecha="14-09-2022")
+        accion = self.session.query(Accion).filter(Accion.id==1).first()
+        self.assertEqual (accion.id,1)
 
 
 
