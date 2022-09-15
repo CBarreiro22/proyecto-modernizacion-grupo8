@@ -234,7 +234,7 @@ class Vista_lista_autos(QWidget):
     def error_vender_auto(self):
             mensaje_error=QMessageBox()
             mensaje_error.setIcon(QMessageBox.Question)
-            mensaje_error.setText("Verifique que todos los campos se encuentren diligenciados y que sean valores numéricos.")        
+            mensaje_error.setText("Verifique que todos los campos se encuentren diligenciados y que sean valores numéricos. Ademas el valor y kilometraje entre 0 y 999,999,999")
             mensaje_error.setWindowTitle("Error al guardar")
             mensaje_error.setWindowIcon(QIcon("src/recursos/smallLogo.png"))
             mensaje_error.setStandardButtons(QMessageBox.Ok ) 
