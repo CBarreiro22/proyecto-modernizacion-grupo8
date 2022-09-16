@@ -113,7 +113,7 @@ class Vista_lista_mantenimientos(QWidget):
         numero_fila = 0
         for mantenimiento in self.mantenimientos:
 
-            etiqueta_nombre=QLabel(mantenimiento["Nombre"])          
+            etiqueta_nombre=QLabel(mantenimiento["nombre"])          
             etiqueta_nombre.setWordWrap(True)
             etiqueta_nombre.setFixedSize(90,40)
             self.distribuidor_tabla_mantenimientos.addWidget(etiqueta_nombre, numero_fila+1,0, Qt.AlignTop)
