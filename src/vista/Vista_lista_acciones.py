@@ -135,11 +135,11 @@ class Vista_lista_acciones(QWidget):
             etiqueta_kilometraje.setWordWrap(True)
             self.distribuidor_actividades.addWidget(etiqueta_kilometraje, numero_fila, 1, alignment=Qt.AlignTop|Qt.AlignCenter)
 
-            etiqueta_valor = QLabel("{:,.3f}".format(float(accion["valor"])))
+            etiqueta_valor = QLabel("{:,.3f}".format(float(accion["costo"])))
             etiqueta_valor.setWordWrap(True)
             self.distribuidor_actividades.addWidget(etiqueta_valor, numero_fila, 2, alignment=Qt.AlignTop|Qt.AlignCenter)
             
-            etiqueta_fecha = QLabel(accion["fecha"])
+            etiqueta_fecha = QLabel(str(accion["fecha"]))
             etiqueta_fecha.setWordWrap(True)
             self.distribuidor_actividades.addWidget(etiqueta_fecha, numero_fila, 3, alignment=Qt.AlignTop|Qt.AlignCenter)
             
