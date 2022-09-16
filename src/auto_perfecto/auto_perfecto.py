@@ -1,6 +1,7 @@
 '''
 Esta clase es tan sólo un mock con datos para probar la interfaz
 '''
+from datetime import datetime
 from src.modelo import automovil
 from src.modelo import mantenimiento
 from src.modelo.automovil import Automovil
@@ -88,7 +89,8 @@ class auto_perfecto():
         return validacion
 
     def dar_mantenimientos(self):
-        return self.mantenimientos.copy()
+        
+        return [elem.__dict__ for elem in session.query(Mantenimiento).all()]
 
     def aniadir_mantenimiento(self, nombre, descripcion):
         if not descripcion or not nombre:
@@ -130,9 +132,16 @@ class auto_perfecto():
         return self.dar_acciones_auto(id_auto)[id_accion].copy()
 
     def crear_accion(self, mantenimiento, id_auto, valor, kilometraje, fecha):
-        accion = Accion (automovil=id_auto, mantenimiento=mantenimiento, id_auto=id_auto, costo=valor, kilometraje=kilometraje, fecha=fecha)
-        self.session.add(accion)
-        session.commit()
+        autos = self.dar_autos()
+        auto = autos[id_auto]
+        idAuto= auto["id"]
+        
+        if(0 < kilometraje <= 99999999) and (0 < valor <= 999999999):
+            accion = Accion (automovil=idAuto, mantenimiento=mantenimiento,costo=valor, kilometraje=kilometraje, fecha=datetime.strptime ("2000-01-01","%Y-%m-%d"))
+            session.add(accion)
+            session.commit()
+            return True
+        return False
 
     def editar_accion(self, id_accion, mantenimiento, id_auto, valor, kilometraje, fecha):
         self.acciones[id_accion]['Mantenimiento'] = mantenimiento
