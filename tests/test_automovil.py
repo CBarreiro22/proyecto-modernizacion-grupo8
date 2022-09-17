@@ -1,6 +1,4 @@
 import unittest
-import random
-import numpy as np
 
 from src.modelo import automovil
 from src.modelo.accion import Accion
@@ -8,10 +6,10 @@ from src.modelo.mantenimiento import Mantenimiento
 
 from src.auto_perfecto.auto_perfecto import auto_perfecto
 from src.modelo.automovil import Automovil
-from faker import Faker
 
 
-from src.modelo.declarative_base import Session, engine, Base
+
+from src.modelo.declarative_base import Session, engine,  Base
 
 
 class AutomovilTestCase(unittest.TestCase):
@@ -27,36 +25,12 @@ class AutomovilTestCase(unittest.TestCase):
         mini = Automovil(marca="mini", placa="JXL531", modelo=1970, kilometraje=3200, color="negro", cilindraje=2000,
                          combustible="gasolina")
 
-        ford = Automovil(marca="ford", placa="JXL534", modelo=1970, kilometraje=0, color="negro", cilindraje=2000,
-                         combustible="gasolina")
+        
 
         renault = self.session.add(renault)
 
-        self.session.add(mini)
-        self.session.add(ford)
-
-        '''Crea una isntancia de Faker'''
-        self.data_factory = Faker()
-        Faker.seed(1000)
-
-        for i in range(0, 10):
-            nombre = self.data_factory.unique.name()
-            descripcion = self.data_factory.unique.text()
-            self.session.add(Mantenimiento(
-                nombre=nombre, descripcion=descripcion))
-
-        kilometraje_anterior = 0
-        for j in range(0, 10):
-
-            mantenimiento = self.data_factory.random_int(1, 10)
-            kilometraje = kilometraje_anterior + \
-                self.data_factory.random_int(0, 10000)
-            fecha = self.data_factory.date_between()
-            costo = self.data_factory.random_int(0, 50000)
-            self.session.add(Accion(mantenimiento=mantenimiento, kilometraje=kilometraje,
-                                    fecha=fecha, costo=costo, automovil=3))
-            kilometraje_anterior = kilometraje
-
+        mini = self.session.add(mini)
+        
         self.session.commit()
 
         self.session.close()
@@ -161,21 +135,3 @@ class AutomovilTestCase(unittest.TestCase):
         self.assertFalse(validacion2)
         self.assertFalse(validacion3)
         self.assertFalse(validacion4)
-
-    def test_validar_reporte_gastos(self):
-        print("probando el reporte de gastos: ")
-
-        acciones = self.session.query(Automovil).filter(
-            Automovil.id == 1).first().acciones
-
-        total_gastos = 0
-
-        costos = []
-
-        for accion, i in acciones:
-            total_gastos += accion.costo
-            costos[i] = accion.costo
-
-        print(total_gastos)
-        promedio = np.mean(costos)
-        self.assertEqual(True, True)
