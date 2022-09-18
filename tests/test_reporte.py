@@ -88,5 +88,8 @@ class AutomovilTestCase(unittest.TestCase):
         print(df)
         ## falta saber como renombrar las columanas con esto queda fecha, el sum
         ## esta función suma  por año todos los gastos.
-        df2 = df.groupby(df.fecha.dt.year)['costo'].sum()
-        print(df2)
+        # df2 = df.groupby(df.fecha.dt.year).sum()
+        df2 = df.groupby('fecha', as_index=False)['costo'].sum()
+        # print(df2)
+        for index, row in df2.iterrows():
+            print(row['fecha'], row['costo'])

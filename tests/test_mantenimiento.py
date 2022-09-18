@@ -3,12 +3,17 @@ import unittest
 from src.auto_perfecto.auto_perfecto import auto_perfecto
 from src.modelo.declarative_base import Session
 from src.modelo.mantenimiento import Mantenimiento
-
+from faker import Faker
 
 class MantenimientoTestCase(unittest.TestCase):
 
     def setUp(self):
         self.logica = auto_perfecto()
+
+        '''Crea una isntancia de Faker'''
+        self.data_factory = Faker()
+        Faker.seed(1000)
+
         '''Abre la sesión'''
         self.session = Session()
 

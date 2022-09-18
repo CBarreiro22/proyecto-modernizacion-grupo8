@@ -143,10 +143,10 @@ class Logica_mock():
         return validacion
 
     def dar_reporte_ganancias(self, id_auto):
-        n_auto = self.autos[id_auto]['Marca']
+        n_auto = self.autos[id_auto]['marca']
         
         for gasto in self.gastos:
-            if gasto['Marca'] == n_auto:
-                return gasto['Gastos'], gasto['ValorKilometro']
+            if gasto['marca'] == n_auto:
+                return gasto['gastos'], gasto['ValorKilometro']
 
         return [('Total',0)], 0
