@@ -1,3 +1,4 @@
+from ast import Delete
 import random
 import numpy as np
 import pandas as pd
@@ -67,29 +68,32 @@ class AutomovilTestCase(unittest.TestCase):
         self.session = Session()
 
         '''Consulta todos los autos'''
-        busqueda = self.session.query(Automovil).all()
-
+        autos = self.session.query(Automovil).all()
+        
+        acciones = self.session.query(Accion).all()
+        
+        for accion in acciones:
+            self.session.delete (accion)
+        
         '''Borra todos los autos'''
-        # for auto in busqueda:
-        #    self.session.delete(auto)
-
+        for auto in autos:
+            self.session.delete(auto)
+            
+        mantenimientos = self.session.query(Mantenimiento).all()
+        for mantenimiento in mantenimientos:
+            self.session.delete(mantenimiento)
+        
+        
         self.session.commit()
         self.session.close()
 
 
     def test_validar_reporte_gastos(self):
         print("probando el reporte de gastos: ")
-
-        Session = sessionmaker(bind=engine)
-        df = pd.read_sql_query(
-            sql=self.session.query(Accion.fecha, Accion.costo).
-            filter(Accion.automovil == 3).statement, con=engine
-        )
-        print(df)
-        ## falta saber como renombrar las columanas con esto queda fecha, el sum
-        ## esta función suma  por año todos los gastos.
-        # df2 = df.groupby(df.fecha.dt.year).sum()
-        df2 = df.groupby('fecha', as_index=False)['costo'].sum()
-        # print(df2)
-        for index, row in df2.iterrows():
-            print(row['fecha'], row['costo'])
+        lista_gastos=[]
+        lista_gastos, valor_kilometro  = self.logica.dar_reporte_ganancias(2)
+        self.assertGreater(valor_kilometro,0)
+        self.assertGreater(len (lista_gastos),0)
+        
+        
+        
