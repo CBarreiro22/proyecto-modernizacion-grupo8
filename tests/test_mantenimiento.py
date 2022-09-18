@@ -5,6 +5,7 @@ from src.modelo.declarative_base import Session
 from src.modelo.mantenimiento import Mantenimiento
 from faker import Faker
 
+
 class MantenimientoTestCase(unittest.TestCase):
 
     def setUp(self):
@@ -31,7 +32,7 @@ class MantenimientoTestCase(unittest.TestCase):
         self.session.close()
 
     def test_crear_mantenimiento_01(self):
-        self.logica.aniadir_mantenimiento("llanta", "cambiar presión de llantas")
+        self.logica.aniadir_mantenimiento("llanta", self.data_factory.unique.text())
         mantenimiento = self.session.query(Mantenimiento).filter(Mantenimiento.nombre == 'llanta').first()
         self.assertEqual(mantenimiento.nombre, "llanta")
 
@@ -48,5 +49,3 @@ class MantenimientoTestCase(unittest.TestCase):
     def test_no_deberia_crear_mantenimiento_por_nulos_04(self):
         self.logica.aniadir_mantenimiento("llanta", "cambiar presión de llantas")
         self.assertFalse(self.logica.aniadir_mantenimiento("llanta", "cambiar presión de llantas traseras"))
-
-
