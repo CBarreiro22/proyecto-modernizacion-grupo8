@@ -97,11 +97,6 @@ class AutomovilTestCase(unittest.TestCase):
             Automovil.marca == 'KIA').first()
         self.assertIsNone(automovil)
 
-    def test_dar_automovil_08(self):
-        auto = self.logica.dar_auto(1)
-        placa = auto["placa"]
-        self.assertEqual(placa, "72H Z07")
-
     def test_vender_auto_17(self):
         chevrolet = Automovil(marca=self.data_factory.company(), placa="JXL67845769", modelo= self.data_factory.random_int(1886, 2022), kilometraje=self.data_factory.random_int(0, 10000), color=self.data_factory.color_name(),
                               cilindraje=self.data_factory.random_int(0, 1000), combustible="gasolina", vendido=True)
