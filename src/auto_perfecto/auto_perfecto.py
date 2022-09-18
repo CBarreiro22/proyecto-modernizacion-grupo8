@@ -2,12 +2,14 @@
 Esta clase es tan sólo un mock con datos para probar la interfaz
 '''
 from datetime import datetime
-from src.modelo import automovil
-from src.modelo import mantenimiento
+
+from sqlalchemy import desc
+
 from src.modelo.automovil import Automovil
 from src.modelo.mantenimiento import Mantenimiento
 from src.modelo.accion import Accion
 from src.modelo.declarative_base import session, engine, Base
+import pandas as pd
 
 
 class auto_perfecto():
@@ -188,4 +190,31 @@ class auto_perfecto():
         return validacion
 
     def dar_reporte_ganancias(self, id_auto):
+        autos = self.dar_autos()
+        auto = autos[id_auto]
+        idAuto = auto["id"]
+        df = pd.read_sql_query(
+            sql=session.query(Accion.fecha, Accion.costo).
+            filter(Accion.automovil == idAuto).statement, con=engine
+        )
+        df2 = df.groupby('fecha', as_index=False)['costo'].sum()
+        total = 0.0
+        resumenGastos = []
+        for index, row in df2.iterrows():
+            tupla = (str(row["fecha"])[0:4], row['costo'])
+            resumenGastos.append(tupla)
+            total += row['costo']
+        resumenGastos.append(("total", total))
+        if len(resumenGastos) > 0:
+            acciones = session.query(Accion).order_by(desc(Accion.fecha)).all()
+            promedio = 0.0
+            for accion in acciones:
+                promedio += accion.costo
+            promedioCalculado = promedio / len(acciones)
+            if len(acciones) > 1:
+                valorAccionMantenimiento = acciones[0].costo / (acciones[0].kilometraje - acciones[1].kilometraje)
+            else:
+                automovil = self.dar_auto(idAuto)
+                valorAccionMantenimiento = acciones[0].costo / (acciones[0].kilometraje - automovil.kilometraje)
+            return resumenGastos, promedioCalculado * valorAccionMantenimiento
         return [('Total', 0)], 0
