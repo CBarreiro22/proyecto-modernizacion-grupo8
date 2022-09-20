@@ -23,7 +23,7 @@ class auto_perfecto():
         Base.metadata.create_all(engine)
 
     def dar_autos(self):
-        autos = [elem.__dict__ for elem in session.query(Automovil).all()]
+        autos = [elem.__dict__ for elem in session.query(Automovil).filter().order_by(Automovil.placa.desc())]
         return autos
 
     def dar_auto(self, id_auto):

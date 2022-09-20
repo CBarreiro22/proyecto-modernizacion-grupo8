@@ -23,9 +23,9 @@ class AccionTestCase(unittest.TestCase):
         mantenimiento = Mantenimiento(nombre=self.data_factory.unique.name(), descripcion=self.data_factory.unique.text())
 
         '''creación de automovil'''
-        automovil = Automovil(marca=self.data_factory.company(), placa=self.data_factory.license_plate(), modelo=self.data_factory.random_int(1886, 2022), kilometraje=self.data_factory.random_int(0, 10000),
+        automovil = Automovil(marca=self.data_factory.company(), placa="JKL444", modelo=self.data_factory.random_int(1886, 2022), kilometraje=self.data_factory.random_int(0, 10000),
                               color=self.data_factory.color_name(), cilindraje=self.data_factory.random_int(0, 1000), combustible="gasolina", vendido=self.data_factory.boolean(chance_of_getting_true=50))
-        automovil2 = Automovil(marca=self.data_factory.company(), placa=self.data_factory.license_plate(), modelo=self.data_factory.random_int(1886, 2022), kilometraje=self.data_factory.random_int(0, 10000),
+        automovil2 = Automovil(marca=self.data_factory.company(), placa="JKL333", modelo=self.data_factory.random_int(1886, 2022), kilometraje=self.data_factory.random_int(0, 10000),
                                color=self.data_factory.color_name(), cilindraje=self.data_factory.random_int(0, 1000), combustible="gasolina", vendido=self.data_factory.boolean(chance_of_getting_true=50))
 
         self.session.add(automovil)
