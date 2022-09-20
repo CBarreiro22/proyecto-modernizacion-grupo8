@@ -17,10 +17,15 @@ class AutomovilTestCase(unittest.TestCase):
         self.data_factory = Faker()
         Faker.seed(1000)
 
-        renault = Automovil(marca=self.data_factory.company(), placa=self.data_factory.license_plate(), modelo=self.data_factory.random_int(1886, 2022), kilometraje=self.data_factory.random_int(0, 10000), color=self.data_factory.color_name(),
+        renault = Automovil(marca=self.data_factory.company(), placa=self.data_factory.license_plate(),
+                            modelo=self.data_factory.random_int(1886, 2022),
+                            kilometraje=self.data_factory.random_int(0, 10000), color=self.data_factory.color_name(),
                             cilindraje=self.data_factory.random_int(0, 1000),
                             combustible="gasolina")
-        mini = Automovil(marca=self.data_factory.company(), placa=self.data_factory.license_plate(), modelo=self.data_factory.random_int(1886, 2022), kilometraje=self.data_factory.random_int(0, 10000), color=self.data_factory.color_name(), cilindraje=self.data_factory.random_int(0, 1000),
+        mini = Automovil(marca=self.data_factory.company(), placa=self.data_factory.license_plate(),
+                         modelo=self.data_factory.random_int(1886, 2022),
+                         kilometraje=self.data_factory.random_int(0, 10000), color=self.data_factory.color_name(),
+                         cilindraje=self.data_factory.random_int(0, 1000),
                          combustible="gasolina")
 
         self.session.add(renault)
@@ -39,8 +44,8 @@ class AutomovilTestCase(unittest.TestCase):
         busqueda = self.session.query(Automovil).all()
 
         '''Borra todos los autos'''
-        # for auto in busqueda:
-        #    self.session.delete(auto)
+        for auto in busqueda:
+            self.session.delete(auto)
 
         self.session.commit()
         self.session.close()
@@ -51,7 +56,8 @@ class AutomovilTestCase(unittest.TestCase):
 
     def test_crear_automovil_01(self):
         self.logica.crear_auto("reault5", "JXL530", self.data_factory.random_int(1886, 2022),
-                               self.data_factory.random_int(0, 10000), self.data_factory.color_name(), self.data_factory.random_int(0, 1000), "gasolina")
+                               self.data_factory.random_int(0, 10000), self.data_factory.color_name(),
+                               self.data_factory.random_int(0, 1000), "gasolina")
         automovil = self.session.query(Automovil).filter(
             Automovil.placa == 'JXL530').first()
         self.assertEqual(automovil.placa, "JXL530")
@@ -64,7 +70,8 @@ class AutomovilTestCase(unittest.TestCase):
 
     def test_no_deberia_crear_automovil_03(self):
         self.logica.crear_auto("500", "JXL74983", "A2020*/!#",
-                               self.data_factory.random_int(0, 10000), self.data_factory.color_name(), self.data_factory.random_int(0, 1000), "gasolina")
+                               self.data_factory.random_int(0, 10000), self.data_factory.color_name(),
+                               self.data_factory.random_int(0, 1000), "gasolina")
         automovil = self.session.query(Automovil).filter(
             Automovil.placa == 'JXL74983').first()
         self.assertIsNone(automovil)
@@ -77,10 +84,11 @@ class AutomovilTestCase(unittest.TestCase):
         self.assertIsNone(automovil)
 
     def test_no_deberia_crear_automovil_05(self):
-        self.logica.crear_auto(self.data_factory.company(), "JXL749834232134213", self.data_factory.random_int(1886, 2022),
-                               self.data_factory.random_int(0, 1000), self.data_factory.color_name(), "RFS2000", "gasolina")
+        self.logica.crear_auto(self.data_factory.company(), "JXL74", self.data_factory.random_int(1886, 2022),
+                               self.data_factory.random_int(0, 1000), self.data_factory.color_name(), "RFS2000",
+                               "gasolina")
         automovil = self.session.query(Automovil).filter(
-            Automovil.placa == 'JXL749834232134213').first()
+            Automovil.placa == 'JXL74').first()
         self.assertIsNone(automovil)
 
     def test_no_deberia_crear_automovil_06(self):
@@ -92,20 +100,22 @@ class AutomovilTestCase(unittest.TestCase):
 
     def test_no_deberia_crear_automovil_07(self):
         self.logica.crear_auto("KIA", self.data_factory.license_plate(), self.data_factory.random_int(1886, 2022),
-                               self.data_factory.random_int(0, 10000), self.data_factory.color_name(), "-23", "gasolina")
+                               self.data_factory.random_int(0, 10000), self.data_factory.color_name(), "-23",
+                               "gasolina")
         automovil = self.session.query(Automovil).filter(
             Automovil.marca == 'KIA').first()
         self.assertIsNone(automovil)
 
     def test_vender_auto_17(self):
-        chevrolet = Automovil(marca=self.data_factory.company(), placa="JXL67845769", modelo= self.data_factory.random_int(1886, 2022), kilometraje=self.data_factory.random_int(0, 10000), color=self.data_factory.color_name(),
+        chevrolet = Automovil(marca=self.data_factory.company(), placa="JXL77777",
+                              modelo=self.data_factory.random_int(1886, 2022),
+                              kilometraje=self.data_factory.random_int(0, 10000), color=self.data_factory.color_name(),
                               cilindraje=self.data_factory.random_int(0, 1000), combustible="gasolina", vendido=True)
         self.session.add(chevrolet)
         self.session.commit()
-        cantidadDeAutos = len(self.logica.dar_autos())
-        self.logica.vender_auto(cantidadDeAutos - 1, 4000, 83.200)
+        self.logica.vender_auto(0, 4000, 83.200)
         automovil = self.session.query(Automovil).filter(
-            Automovil.placa == 'JXL67845769').first()
+            Automovil.placa == 'JXL77777').first()
         self.assertEqual(automovil.vendido, True)
         self.assertEqual(automovil.valorVenta, 83.200)
         self.assertEqual(automovil.kilometrajeVenta, 4000)
