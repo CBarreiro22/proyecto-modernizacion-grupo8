@@ -50,7 +50,7 @@ class AutomovilTestCase(unittest.TestCase):
         self.assertIsNotNone(autos)
 
     def test_crear_automovil_01(self):
-        self.logica.crear_auto(self.data_factory.company(), "JXL530", self.data_factory.random_int(1886, 2022),
+        self.logica.crear_auto("reault5", "JXL530", self.data_factory.random_int(1886, 2022),
                                self.data_factory.random_int(0, 10000), self.data_factory.color_name(), self.data_factory.random_int(0, 1000), "gasolina")
         automovil = self.session.query(Automovil).filter(
             Automovil.placa == 'JXL530').first()

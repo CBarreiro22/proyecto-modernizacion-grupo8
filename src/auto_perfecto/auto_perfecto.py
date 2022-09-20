@@ -61,11 +61,9 @@ class auto_perfecto():
         return self.validar_crear_auto(marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible)
 
     def validar_crear_auto(self, marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
-
         if not marca or not placa or not modelo or not kilometraje or not color or not cilindraje or not tipo_combustible:
             return False
         elif self.valida_tipo_datos_auto(modelo, kilometraje, cilindraje) == False:
-
             return False
         elif int(modelo) < 1886:
 
@@ -74,10 +72,32 @@ class auto_perfecto():
             return False
         elif int(cilindraje) < 0 or int(cilindraje) > 999999999:
             return False
+        elif len(marca) <= 6 or len(marca) >= 10:
+            return False
+        elif len(placa) <= 3 or len(placa) >= 255:
+            return False
+        elif len(color) <= 3 or len(color) >= 255:
+            return False
+        elif len(tipo_combustible) <= 3 or len(tipo_combustible) >= 255:
+            return False
+        elif self.validar_marca_repetida(marca):
+            return False
+        elif self.validar_placa_repetida(placa):
+            return False
         return True
 
-    def valida_tipo_datos_auto(self, modelo, kilometraje, cilindraje):
+    def validar_marca_repetida(self, marca):
+        automovil = session.query(Automovil).filter(Automovil.marca == marca).first()
+        if automovil is not None:
+            return True
+        return False
+    def validar_placa_repetida(self, placa):
+        automovil = session.query(Automovil).filter(Automovil.placa == placa).first()
+        if automovil is not None:
+            return True
+        return False
 
+    def valida_tipo_datos_auto(self, modelo, kilometraje, cilindraje):
         try:
             return type(int(modelo)) is int and type(int(kilometraje)) is int and type(int(cilindraje)) is int
         except:
@@ -123,7 +143,8 @@ class auto_perfecto():
     def validar_crear_editar_mantenimiento(self, nombre, descripcion):
         validacion = False
         if nombre != '' and descripcion != '':
-            validacion = True
+            if len(descripcion) <= 30 and len(nombre) <= 20:
+                validacion = True
         return validacion
 
     def dar_acciones_auto(self, id_auto):
