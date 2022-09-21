@@ -70,13 +70,16 @@ class AutomovilTestCase(unittest.TestCase):
 
         '''Consulta todos los autos'''
         acciones = self.session.query(Accion).all()
-        self.session.delete(acciones)
+        for accion in acciones:
+            self.session.delete(accion)
 
         mantenimientos = self.session.query(Mantenimiento).all()
-        self.session.commit().delete(mantenimientos)
+        for mantenimiento in mantenimientos:
+            self.session.delete(mantenimiento)
 
         autos = self.session.query(Automovil).all()
-        self.session.delete(autos)
+        for auto in autos:
+            self.session.delete(auto)
 
         self.session.commit()
         self.session.close()
@@ -181,9 +184,9 @@ class AutomovilTestCase(unittest.TestCase):
         id_auto = auto.id
         self.logica.eliminar_auto(id_auto)
 
-        auto = self.session.query(Automovil).filter(
+        autoEliminado = self.session.query(Automovil).filter(
             Automovil.placa == 'to_test_delete_123').first()
-        self.assertIsNone(auto)
-        acciones = self.self.session.query(Accion).filter(
+        self.assertIsInstance (autoEliminado,Automovil)
+        acciones = self.session.query(Accion).filter(
             Accion.automovil == id_auto).all()
         self.assertGreater(len(acciones), 0)
