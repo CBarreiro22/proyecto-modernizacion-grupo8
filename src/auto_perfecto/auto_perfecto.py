@@ -23,7 +23,8 @@ class auto_perfecto():
         Base.metadata.create_all(engine)
 
     def dar_autos(self):
-        autos = [elem.__dict__ for elem in session.query(Automovil).filter().order_by(Automovil.placa.desc())]
+        autos = [elem.__dict__ for elem in session.query(
+            Automovil).filter().order_by(Automovil.placa.desc())]
         return autos
 
     def dar_auto(self, id_auto):
@@ -48,7 +49,8 @@ class auto_perfecto():
     def vender_auto(self, id, kilometraje_venta, valor_venta):
         auto = self.dar_auto(id)
         autoId = auto["id"]
-        automovil = session.query(Automovil).filter(Automovil.id == autoId).first()
+        automovil = session.query(Automovil).filter(
+            Automovil.id == autoId).first()
         automovil.valorVenta = valor_venta
         automovil.kilometrajeVenta = kilometraje_venta
         automovil.vendido = True
@@ -57,9 +59,11 @@ class auto_perfecto():
     def eliminar_auto(self, id):
         autos = self.dar_autos()
         autoId = autos[id]["id"]
-        acciones = session.query (Accion).filter (Accion.automovil==autoId).all()
-        if (len (acciones) == 0 ):
-            auto = session.query (Automovil).filter (Automovil.id == autoId).first()
+        acciones = session.query(Accion).filter(
+            Accion.automovil == autoId).all()
+        if (len(acciones) == 0):
+            auto = session.query(Automovil).filter(
+                Automovil.id == autoId).first()
             session.delete(auto)
             session.commit()
         return self.dar_autos()
@@ -94,12 +98,15 @@ class auto_perfecto():
         return True
 
     def validar_marca_repetida(self, marca):
-        automovil = session.query(Automovil).filter(Automovil.marca == marca).first()
+        automovil = session.query(Automovil).filter(
+            Automovil.marca == marca).first()
         if automovil is not None:
             return True
         return False
+
     def validar_placa_repetida(self, placa):
-        automovil = session.query(Automovil).filter(Automovil.placa == placa).first()
+        automovil = session.query(Automovil).filter(
+            Automovil.placa == placa).first()
         if automovil is not None:
             return True
         return False
@@ -157,11 +164,13 @@ class auto_perfecto():
     def dar_acciones_auto(self, id_auto):
         autos = self.dar_autos()
         autoId = autos[id_auto]["id"]
-        acciones = [elem.__dict__ for elem in session.query(Accion).filter(Accion.automovil == autoId).all()]
+        acciones = [elem.__dict__ for elem in session.query(
+            Accion).filter(Accion.automovil == autoId).all()]
         for index in range(len(acciones)):
             accion = acciones[index]
             mantenimientoId = int(accion["mantenimiento"])
-            mantenimiento = session.query(Mantenimiento).filter(Mantenimiento.id == mantenimientoId).first()
+            mantenimiento = session.query(Mantenimiento).filter(
+                Mantenimiento.id == mantenimientoId).first()
             acciones[index]["mantenimiento"] = mantenimiento.nombre
             acciones[index]["fecha"] = str(accion["fecha"])[0:10]
         return acciones
@@ -240,9 +249,11 @@ class auto_perfecto():
                 promedio += accion.costo
             promedioCalculado = promedio / len(acciones)
             if len(acciones) > 1:
-                valorAccionMantenimiento = acciones[0].costo / (acciones[0].kilometraje - acciones[1].kilometraje)
+                valorAccionMantenimiento = acciones[0].costo / \
+                    (acciones[0].kilometraje - acciones[1].kilometraje)
             else:
                 automovil = self.dar_auto(idAuto)
-                valorAccionMantenimiento = acciones[0].costo / (acciones[0].kilometraje - automovil.kilometraje)
+                valorAccionMantenimiento = acciones[0].costo / \
+                    (acciones[0].kilometraje - automovil.kilometraje)
             return resumenGastos, promedioCalculado * valorAccionMantenimiento
         return [('Total', 0)], 0
