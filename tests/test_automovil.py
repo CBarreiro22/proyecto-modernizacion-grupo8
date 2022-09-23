@@ -194,7 +194,7 @@ class AutomovilTestCase(unittest.TestCase):
 
         autoEliminado = self.session.query(Automovil).filter(
             Automovil.placa == 'to_test_delete_1234').first()
-        self.assertIsNotNone (autoEliminado)
+        self.assertIsNotNone (autoEliminado) 
         
         
         
