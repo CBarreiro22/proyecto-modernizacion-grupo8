@@ -65,28 +65,28 @@ class AccionTestCase(unittest.TestCase):
         self.session.commit()
         self.session.close()
 
-    def test_dar_acciones_auto_02(self):
+    def test_verificacion_existencia_dar_acciones_auto_02(self):
         acciones = self.logica.dar_acciones_auto(1)
         self.assertEqual(len(acciones), 1)
 
-    def test_no_deberia_dar_acciones_auto_03(self):
+    def test_verificacion_existencia_no_deberia_dar_acciones_auto_03(self):
         acciones = self.logica.dar_acciones_auto(0)
         self.assertEqual(len(acciones), 0)
 
-    def test_crear_accion_auto(self):
+    def test_deberia_crear_accion_auto(self):
         self.logica.crear_accion(mantenimiento=1, id_auto=0, valor=self.data_factory.random_int(0, 50000),
                                  kilometraje=self.data_factory.random_int(0, 10000),
                                  fecha="2020-03-03")
         accion = self.session.query(Accion).filter(Accion.id == 1).first()
         self.assertEqual(accion.id, 1)
 
-    def test_crear_accion_auto_validacion_01(self):
+    def test_no_deberia_crear_accion_auto_valor_invalido_01(self):
         self.logica.crear_accion(mantenimiento=1, id_auto=0, valor=-1,
                                  kilometraje=self.data_factory.random_int(0, 10000), fecha=datetime.now())
         accion = self.session.query(Accion).filter(Accion.kilometraje == 1).first()
         self.assertIsNone(accion)
 
-    def test_crear_accion_auto_validacion_02(self):
+    def test_no_deberia_crear_accion_auto_kilometraje_invalido_02(self):
         self.logica.crear_accion(mantenimiento=1, id_auto=0, valor=21654.23, kilometraje=-1, fecha=datetime.now())
         accion = self.session.query(Accion).filter(Accion.costo == 21654.23).first()
         self.assertIsNone(accion)
@@ -97,7 +97,7 @@ class AccionTestCase(unittest.TestCase):
         self.assertEqual(accion["kilometraje"], 4000)
         self.assertEqual(accion["fecha"], "2020-03-02")
 
-    def test_no_deberia_editar_accion_caso11(self):
+    def test_no_deberia_editar_accion_kilometraje_invalido_caso11(self):
         self.logica.editar_accion(0, 1, 1, self.data_factory.random_int(0, 50000), 40000000000000, "2020-03-02")
         accion = self.logica.dar_accion(1, 0)
         self.assertNotEqual(accion["fecha"], "2020-03-03")

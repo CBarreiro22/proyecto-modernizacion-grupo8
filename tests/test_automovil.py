@@ -88,11 +88,11 @@ class AutomovilTestCase(unittest.TestCase):
         self.session.commit()
         self.session.close()
 
-    def test_listar_automoviles_01(self):
+    def test_verificar_existencia_listar_automoviles_01(self):
         autos = self.logica.dar_autos()
         self.assertIsNotNone(autos)
 
-    def test_crear_automovil_01(self):
+    def test_deberia_crear_automovil_01(self):
         self.logica.crear_auto("reault5", "JXL530", self.data_factory.random_int(1886, 2022),
                                self.data_factory.random_int(
                                    0, 10000), self.data_factory.color_name(),
@@ -101,13 +101,13 @@ class AutomovilTestCase(unittest.TestCase):
             Automovil.placa == 'JXL530').first()
         self.assertEqual(automovil.placa, "JXL530")
 
-    def test_no_deberia_crear_automovil_02(self):
+    def test_no_deberia_crear_automovil_valores_nulos_02(self):
         self.logica.crear_auto(None, "JXL120", None, None, None, None, None)
         automovil = self.session.query(Automovil).filter(
             Automovil.placa == 'JXL120').first()
         self.assertIsNone(automovil)
 
-    def test_no_deberia_crear_automovil_03(self):
+    def test_no_deberia_crear_automovil_modelo_invalido_03(self):
         self.logica.crear_auto("500", "JXL74983", "A2020*/!#",
                                self.data_factory.random_int(
                                    0, 10000), self.data_factory.color_name(),
@@ -116,14 +116,14 @@ class AutomovilTestCase(unittest.TestCase):
             Automovil.placa == 'JXL74983').first()
         self.assertIsNone(automovil)
 
-    def test_no_deberia_crear_automovil_04(self):
+    def test_no_deberia_crear_automovil_placa_invalida_04(self):
         self.logica.crear_auto(self.data_factory.company(), "JX", self.data_factory.random_int(1886, 2022),
                                "-1", self.data_factory.color_name(), self.data_factory.random_int(0, 1000), "gasolina")
         automovil = self.session.query(Automovil).filter(
             Automovil.placa == 'JX').first()
         self.assertIsNone(automovil)
 
-    def test_no_deberia_crear_automovil_05(self):
+    def test_no_deberia_crear_automovil_cilindraje_invalido_05(self):
         self.logica.crear_auto(self.data_factory.company(), "JXL74", self.data_factory.random_int(1886, 2022),
                                self.data_factory.random_int(
                                    0, 1000), self.data_factory.color_name(), "RFS2000",
@@ -132,14 +132,14 @@ class AutomovilTestCase(unittest.TestCase):
             Automovil.placa == 'JXL74').first()
         self.assertIsNone(automovil)
 
-    def test_no_deberia_crear_automovil_06(self):
+    def test_no_deberia_crear_automovil_kilometrjae_invalido_06(self):
         self.logica.crear_auto("", "", "1971", "-2",
                                self.data_factory.color_name(), self.data_factory.random_int(0, 1000), "gasolina")
         automovil = self.session.query(Automovil).filter(
             Automovil.modelo == '1971').first()
         self.assertIsNone(automovil)
 
-    def test_no_deberia_crear_automovil_07(self):
+    def test_no_deberia_crear_automovil_cilindraje_invalido_07(self):
         self.logica.crear_auto("KIA", self.data_factory.license_plate(), self.data_factory.random_int(1886, 2022),
                                self.data_factory.random_int(
                                    0, 10000), self.data_factory.color_name(), "-23",
@@ -148,7 +148,7 @@ class AutomovilTestCase(unittest.TestCase):
             Automovil.marca == 'KIA').first()
         self.assertIsNone(automovil)
 
-    def test_vender_auto_17(self):
+    def test_deberia_vender_auto_17(self):
         chevrolet = Automovil(marca=self.data_factory.company(), placa="JXL77777",
                               modelo=self.data_factory.random_int(1886, 2022),
                               kilometraje=self.data_factory.random_int(0, 10000), color=self.data_factory.color_name(),
@@ -168,7 +168,7 @@ class AutomovilTestCase(unittest.TestCase):
         self.assertTrue(validacion)
         self.assertTrue(validacion2)
 
-    def test_validar_vender_auto_fail_19(self):
+    def test_validar_vender_auto_fail_parametros_invalidos_19(self):
         validacion = self.logica.validar_vender_auto(2, 83.200, -4000)
         validacion2 = self.logica.validar_vender_auto(2, -83.200, 4000)
         validacion3 = self.logica.validar_vender_auto(
@@ -207,7 +207,12 @@ class AutomovilTestCase(unittest.TestCase):
 
         autoEliminado = self.session.query(Automovil).filter(
             Automovil.placa == 'to_test_delete_1234').first()
-        self.assertIsNotNone (autoEliminado) 
+        self.assertIsNotNone (autoEliminado)
+
+    def test_verificar_orden_lista_32(self):
+        autos = self.logica.dar_autos()
+        self.assertEqual(autos[0]["placa"], "to_test_delete_1234")
+        self.assertEqual(autos[1]["placa"], "to_test_delete_123")
         
         
         
