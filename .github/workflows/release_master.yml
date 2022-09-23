@@ -16,8 +16,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Crear rama release
       run: |
-        git checkout -b release
-        git push -f -u origin release
+        git checkout -b release/1.5.0
+        git push -f -u origin release/1.5.0
   merge-develop-to-release:
     needs: create-release
     name: Merge develop -> release
