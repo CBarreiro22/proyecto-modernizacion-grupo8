@@ -30,7 +30,11 @@ class AutomovilTestCase(unittest.TestCase):
                          kilometraje=self.data_factory.random_int(0, 10000), color=self.data_factory.color_name(),
                          cilindraje=self.data_factory.random_int(0, 1000),
                          combustible="gasolina")
-
+        self.session.add (Automovil(marca=self.data_factory.company(), placa="to_test_delete_1234",
+                         modelo=self.data_factory.random_int(1886, 2022),
+                         kilometraje=self.data_factory.random_int(0, 10000), color=self.data_factory.color_name(),
+                         cilindraje=self.data_factory.random_int(0, 1000),
+                         combustible="gasolina"))
         ford = Automovil(marca=self.data_factory.company(), placa="to_test_delete_123",
                          modelo=self.data_factory.random_int(1886, 2022),
                          kilometraje=self.data_factory.random_int(0, 10000), color=self.data_factory.color_name(),
@@ -151,7 +155,7 @@ class AutomovilTestCase(unittest.TestCase):
                               cilindraje=self.data_factory.random_int(0, 1000), combustible="gasolina", vendido=True)
         self.session.add(chevrolet)
         self.session.commit()
-        self.logica.vender_auto(0, 4000, 83.200)
+        self.logica.vender_auto(2, 4000, 83.200)
         automovil = self.session.query(Automovil).filter(
             Automovil.placa == 'JXL77777').first()
         self.assertEqual(automovil.vendido, True)
@@ -177,10 +181,20 @@ class AutomovilTestCase(unittest.TestCase):
         self.assertFalse(validacion4)
 
     def test_borrar_auto_exitoso(self):
-        
-        self.logica.eliminar_auto(0)
+
+        self.logica.eliminar_auto(1)
 
         autoEliminado = self.session.query(Automovil).filter(
             Automovil.placa == 'to_test_delete_123').first()
         self.assertIsNone (autoEliminado)
+        
+    def test_borrar_auto_con_acciones(self):
+
+        self.logica.eliminar_auto(0)
+
+        autoEliminado = self.session.query(Automovil).filter(
+            Automovil.placa == 'to_test_delete_1234').first()
+        self.assertIsNotNone (autoEliminado)
+        
+        
         

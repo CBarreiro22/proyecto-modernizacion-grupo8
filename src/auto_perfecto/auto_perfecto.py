@@ -57,9 +57,11 @@ class auto_perfecto():
     def eliminar_auto(self, id):
         autos = self.dar_autos()
         autoId = autos[id]["id"]
-        auto = session.query (Automovil).filter (Automovil.id == autoId).first()
-        session.delete(auto)
-        session.commit()
+        acciones = session.query (Accion).filter (Accion.automovil==autoId).all()
+        if (len (acciones) == 0 ):
+            auto = session.query (Automovil).filter (Automovil.id == autoId).first()
+            session.delete(auto)
+            session.commit()
         return self.dar_autos()
 
     def validar_crear_editar_auto(self, id, marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
