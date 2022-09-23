@@ -21,7 +21,7 @@ class AccionTestCase(unittest.TestCase):
 
         accion = Accion(mantenimiento=1, kilometraje=self.data_factory.random_int(0, 10000),
                         fecha=self.data_factory.date_between(), costo=self.data_factory.random_int(0, 50000),
-                        automovil=1)
+                        automovil=2)
         mantenimiento = Mantenimiento(nombre=self.data_factory.unique.name(),
                                       descripcion=self.data_factory.unique.text())
 
@@ -66,11 +66,11 @@ class AccionTestCase(unittest.TestCase):
         self.session.close()
 
     def test_dar_acciones_auto_02(self):
-        acciones = self.logica.dar_acciones_auto(0)
+        acciones = self.logica.dar_acciones_auto(1)
         self.assertEqual(len(acciones), 1)
 
     def test_no_deberia_dar_acciones_auto_03(self):
-        acciones = self.logica.dar_acciones_auto(1)
+        acciones = self.logica.dar_acciones_auto(0)
         self.assertEqual(len(acciones), 0)
 
     def test_crear_accion_auto(self):
@@ -92,18 +92,12 @@ class AccionTestCase(unittest.TestCase):
         self.assertIsNone(accion)
 
     def test_deberia_editar_accion_caso10(self):
-        self.logica.crear_accion(mantenimiento=1, id_auto=0, valor=self.data_factory.random_int(0, 50000),
-                                 kilometraje=self.data_factory.random_int(0, 10000), fecha="2020-03-03")
-        self.logica.editar_accion(1, 1, 0, self.data_factory.random_int(0, 50000), 4000, "2020-03-02")
-        accion = self.logica.dar_accion(0, 1)
-
-        self.assertEqual(accion.kilometraje, 4000)
-        self.assertEqual(accion.fecha, "2020-03-02")
-
+        self.logica.editar_accion(0, 1, 1, self.data_factory.random_int(0, 50000), 4000, "2020-03-02")
+        accion = self.logica.dar_accion(1, 0)
+        self.assertEqual(accion["kilometraje"], 4000)
+        self.assertEqual(accion["fecha"], "2020-03-02")
 
     def test_no_deberia_editar_accion_caso11(self):
-        self.logica.crear_accion(mantenimiento=1, id_auto=0, valor=self.data_factory.random_int(0, 50000),
-                                 kilometraje=self.data_factory.random_int(0, 10000), fecha="2020-03-03")
-        self.logica.editar_accion(1, 1, 0, self.data_factory.random_int(0, 50000), 400000000000000, "2020-03-02")
-        accion = self.logica.dar_accion(0, 1)
-        self.assertEqual(accion.fecha, "2020-03-03")
+        self.logica.editar_accion(0, 1, 1, self.data_factory.random_int(0, 50000), 40000000000000, "2020-03-02")
+        accion = self.logica.dar_accion(1, 0)
+        self.assertNotEqual(accion["fecha"], "2020-03-03")
