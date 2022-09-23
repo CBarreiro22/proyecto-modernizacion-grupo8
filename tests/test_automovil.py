@@ -1,9 +1,12 @@
+import random
 import unittest
 
+from faker import Faker
+from src.modelo.mantenimiento import Mantenimiento
 from src.auto_perfecto.auto_perfecto import auto_perfecto
 from src.modelo.automovil import Automovil
-from faker import Faker
-from src.modelo.declarative_base import Session, engine, Base
+from src.modelo.accion import Accion
+from src.modelo.declarative_base import Base, Session, engine
 
 
 class AutomovilTestCase(unittest.TestCase):
@@ -27,6 +30,35 @@ class AutomovilTestCase(unittest.TestCase):
                          kilometraje=self.data_factory.random_int(0, 10000), color=self.data_factory.color_name(),
                          cilindraje=self.data_factory.random_int(0, 1000),
                          combustible="gasolina")
+        self.session.add (Automovil(marca=self.data_factory.company(), placa="to_test_delete_1234",
+                         modelo=self.data_factory.random_int(1886, 2022),
+                         kilometraje=self.data_factory.random_int(0, 10000), color=self.data_factory.color_name(),
+                         cilindraje=self.data_factory.random_int(0, 1000),
+                         combustible="gasolina"))
+        ford = Automovil(marca=self.data_factory.company(), placa="to_test_delete_123",
+                         modelo=self.data_factory.random_int(1886, 2022),
+                         kilometraje=self.data_factory.random_int(0, 10000), color=self.data_factory.color_name(),
+                         cilindraje=self.data_factory.random_int(0, 1000),
+                         combustible="gasolina")
+        nombre_mantenimiento = self.data_factory.unique.name()
+        self.session.add(Mantenimiento(nombre=nombre_mantenimiento,
+                                       descripcion=self.data_factory.unique.text()))
+
+        self.session.add(ford)
+        mantenimiento = self.session.query(Mantenimiento).filter(
+            Automovil.placa == 'to_test_delete_123').first()
+
+        ford = self.session.query(Automovil).filter(
+            Mantenimiento.nombre == nombre_mantenimiento).first()
+
+        for i in range(0, 10):
+            self.session.add(Accion(mantenimiento=mantenimiento.id,
+                                    kilometraje=self.data_factory.random_int(
+                                        1, 99999999),
+                                    fecha=self.data_factory.date_between(),
+                                    costo=self.data_factory.random_int(
+                                        1, 99999999),
+                                    automovil=ford.id))
 
         self.session.add(renault)
 
@@ -41,10 +73,16 @@ class AutomovilTestCase(unittest.TestCase):
         self.session = Session()
 
         '''Consulta todos los autos'''
-        busqueda = self.session.query(Automovil).all()
+        acciones = self.session.query(Accion).all()
+        for accion in acciones:
+            self.session.delete(accion)
 
-        '''Borra todos los autos'''
-        for auto in busqueda:
+        mantenimientos = self.session.query(Mantenimiento).all()
+        for mantenimiento in mantenimientos:
+            self.session.delete(mantenimiento)
+
+        autos = self.session.query(Automovil).all()
+        for auto in autos:
             self.session.delete(auto)
 
         self.session.commit()
@@ -56,7 +94,8 @@ class AutomovilTestCase(unittest.TestCase):
 
     def test_crear_automovil_01(self):
         self.logica.crear_auto("reault5", "JXL530", self.data_factory.random_int(1886, 2022),
-                               self.data_factory.random_int(0, 10000), self.data_factory.color_name(),
+                               self.data_factory.random_int(
+                                   0, 10000), self.data_factory.color_name(),
                                self.data_factory.random_int(0, 1000), "gasolina")
         automovil = self.session.query(Automovil).filter(
             Automovil.placa == 'JXL530').first()
@@ -70,7 +109,8 @@ class AutomovilTestCase(unittest.TestCase):
 
     def test_no_deberia_crear_automovil_03(self):
         self.logica.crear_auto("500", "JXL74983", "A2020*/!#",
-                               self.data_factory.random_int(0, 10000), self.data_factory.color_name(),
+                               self.data_factory.random_int(
+                                   0, 10000), self.data_factory.color_name(),
                                self.data_factory.random_int(0, 1000), "gasolina")
         automovil = self.session.query(Automovil).filter(
             Automovil.placa == 'JXL74983').first()
@@ -85,7 +125,8 @@ class AutomovilTestCase(unittest.TestCase):
 
     def test_no_deberia_crear_automovil_05(self):
         self.logica.crear_auto(self.data_factory.company(), "JXL74", self.data_factory.random_int(1886, 2022),
-                               self.data_factory.random_int(0, 1000), self.data_factory.color_name(), "RFS2000",
+                               self.data_factory.random_int(
+                                   0, 1000), self.data_factory.color_name(), "RFS2000",
                                "gasolina")
         automovil = self.session.query(Automovil).filter(
             Automovil.placa == 'JXL74').first()
@@ -100,7 +141,8 @@ class AutomovilTestCase(unittest.TestCase):
 
     def test_no_deberia_crear_automovil_07(self):
         self.logica.crear_auto("KIA", self.data_factory.license_plate(), self.data_factory.random_int(1886, 2022),
-                               self.data_factory.random_int(0, 10000), self.data_factory.color_name(), "-23",
+                               self.data_factory.random_int(
+                                   0, 10000), self.data_factory.color_name(), "-23",
                                "gasolina")
         automovil = self.session.query(Automovil).filter(
             Automovil.marca == 'KIA').first()
@@ -113,7 +155,7 @@ class AutomovilTestCase(unittest.TestCase):
                               cilindraje=self.data_factory.random_int(0, 1000), combustible="gasolina", vendido=True)
         self.session.add(chevrolet)
         self.session.commit()
-        self.logica.vender_auto(0, 4000, 83.200)
+        self.logica.vender_auto(2, 4000, 83.200)
         automovil = self.session.query(Automovil).filter(
             Automovil.placa == 'JXL77777').first()
         self.assertEqual(automovil.vendido, True)
@@ -151,3 +193,21 @@ class AutomovilTestCase(unittest.TestCase):
             Automovil.placa == 'JXL77777').first()
         self.assertEqual(automovil.combustible, "diesel55")
 
+    def test_borrar_auto_exitoso(self):
+
+        self.logica.eliminar_auto(1)
+
+        autoEliminado = self.session.query(Automovil).filter(
+            Automovil.placa == 'to_test_delete_123').first()
+        self.assertIsNone (autoEliminado)
+        
+    def test_borrar_auto_con_acciones(self):
+
+        self.logica.eliminar_auto(0)
+
+        autoEliminado = self.session.query(Automovil).filter(
+            Automovil.placa == 'to_test_delete_1234').first()
+        self.assertIsNotNone (autoEliminado) 
+        
+        
+        
