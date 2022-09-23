@@ -177,16 +177,10 @@ class AutomovilTestCase(unittest.TestCase):
         self.assertFalse(validacion4)
 
     def test_borrar_auto_exitoso(self):
-
         
-        auto = self.session.query(Automovil).filter(
-            Automovil.placa == 'to_test_delete_123').first()
-        id_auto = auto.id
-        self.logica.eliminar_auto(id_auto)
+        self.logica.eliminar_auto(0)
 
         autoEliminado = self.session.query(Automovil).filter(
             Automovil.placa == 'to_test_delete_123').first()
-        self.assertIsInstance (autoEliminado,Automovil)
-        acciones = self.session.query(Accion).filter(
-            Accion.automovil == id_auto).all()
-        self.assertGreater(len(acciones), 0)
+        self.assertIsNone (autoEliminado)
+        

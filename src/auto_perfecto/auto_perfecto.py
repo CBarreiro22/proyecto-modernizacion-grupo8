@@ -55,7 +55,9 @@ class auto_perfecto():
         session.commit()
 
     def eliminar_auto(self, id):
-        auto = session.query (Automovil).filter (Automovil.id == id+1).first()
+        autos = self.dar_autos()
+        autoId = autos[id]["id"]
+        auto = session.query (Automovil).filter (Automovil.id == autoId).first()
         session.delete(auto)
         session.commit()
         return self.dar_autos()
