@@ -138,6 +138,20 @@ class AutomovilTestCase(unittest.TestCase):
         self.assertFalse(validacion3)
         self.assertFalse(validacion4)
 
+    def test_borrar_auto_exitoso(self):
+        self.logica.eliminar_auto(1)
+
+        autoEliminado = self.session.query(Automovil).filter(
+            Automovil.placa == 'to_test_delete_123').first()
+        self.assertIsNone(autoEliminado)
+
+    def test_borrar_auto_con_acciones(self):
+        self.logica.eliminar_auto(0)
+
+        autoEliminado = self.session.query(Automovil).filter(
+            Automovil.placa == 'to_test_delete_1234').first()
+        self.assertIsNotNone(autoEliminado)
+
     def test_deberia_editar_auto_30(self):
         chevrolet2 = Automovil(marca=self.data_factory.company(), placa="JXL77776",
                                modelo=self.data_factory.random_int(1886, 2022),
