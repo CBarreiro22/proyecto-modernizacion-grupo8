@@ -164,9 +164,9 @@ class auto_perfecto():
                 validacion = True
         return validacion
 
-    def dar_acciones_auto(self, id_auto):
+    def dar_acciones_auto(self, id_auto_index):
         autos = self.dar_autos()
-        autoId = autos[id_auto]["id"]
+        autoId = autos[id_auto_index]["id"]
         acciones = [elem.__dict__ for elem in session.query(
             Accion).filter(Accion.automovil == autoId).all()]
         for index in range(len(acciones)):
@@ -179,7 +179,13 @@ class auto_perfecto():
         return acciones
 
     def dar_accion(self, id_auto, id_accion):
-        return self.dar_acciones_auto(id_auto)[id_accion].copy()
+        auto = self.dar_auto(id_auto)
+        autoId = auto["id"]
+        acciones = self.dar_acciones_auto(id_auto)
+        acciones[id_accion]
+        accionId = acciones[id_accion]["id"]
+        accion = session.query(Accion).filter(Accion.automovil == autoId and Accion.id == accionId).first()
+        return acciones[id_accion]
 
     def crear_accion(self, mantenimiento, id_auto, valor, kilometraje, fecha):
         autos = self.dar_autos()
@@ -187,7 +193,7 @@ class auto_perfecto():
         idAuto = auto["id"]
 
         if (0 < kilometraje <= 99999999) and (0 < valor <= 999999999):
-            accion = Accion(automovil=idAuto, mantenimiento=mantenimiento, costo=valor, kilometraje=kilometraje,
+            accion = Accion(automovil=idAuto, mantenimiento=int(mantenimiento), costo=valor, kilometraje=kilometraje,
                             fecha=datetime.strptime(fecha, "%Y-%m-%d"))
             session.add(accion)
             session.commit()
@@ -195,11 +201,15 @@ class auto_perfecto():
         return False
 
     def editar_accion(self, id_accion, mantenimiento, id_auto, valor, kilometraje, fecha):
-        self.acciones[id_accion]['Mantenimiento'] = mantenimiento
-        self.acciones[id_accion]['Auto'] = self.autos[id_auto]['Marca']
-        self.acciones[id_accion]['Valor'] = valor
-        self.acciones[id_accion]['Kilometraje'] = kilometraje
-        self.acciones[id_accion]['Fecha'] = fecha
+        if self.validar_crear_editar_accion(id_accion, mantenimiento, id_auto, valor, kilometraje, fecha):
+            acciones = self.dar_acciones_auto(id_auto)
+            accionId = acciones[id_accion]["id"]
+            accion = session.query(Accion).filter(Accion.id == accionId).first()
+            accion.mantenimiento = int(mantenimiento)
+            accion.costo = valor
+            accion.kilometraje = int(kilometraje)
+            accion.fecha = datetime.strptime(fecha, "%Y-%m-%d")
+            session.commit()
 
     def eliminar_accion(self, id_auto, id_accion):
         marca_auto = self.autos[id_auto]['Marca']
@@ -221,9 +231,8 @@ class auto_perfecto():
     def validar_crear_editar_accion(self, id_accion, mantenimiento, id_auto, valor, kilometraje, fecha):
         validacion = False
         try:
-            float(kilometraje)
-            float(valor)
-            validacion = True
+            if (0 < int(kilometraje) <= 99999999) and (0.0 < float(valor) <= 999999999.0) and mantenimiento and fecha:
+                validacion = True
         except ValueError:
             validacion = False
 
@@ -253,10 +262,10 @@ class auto_perfecto():
             promedioCalculado = promedio / len(acciones)
             if len(acciones) > 1:
                 valorAccionMantenimiento = acciones[0].costo / \
-                    (acciones[0].kilometraje - acciones[1].kilometraje)
+                                           (acciones[0].kilometraje - acciones[1].kilometraje)
             else:
                 automovil = self.dar_auto(idAuto)
                 valorAccionMantenimiento = acciones[0].costo / \
-                    (acciones[0].kilometraje - automovil.kilometraje)
+                                           (acciones[0].kilometraje - automovil.kilometraje)
             return resumenGastos, promedioCalculado * valorAccionMantenimiento
         return [('Total', 0)], 0
