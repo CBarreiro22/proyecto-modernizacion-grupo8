@@ -72,4 +72,4 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         source-branch: release/1.5.0
-        target-branch: main
+        target-branch: main 
