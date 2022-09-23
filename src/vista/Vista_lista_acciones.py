@@ -227,3 +227,5 @@ class Vista_lista_acciones(QWidget):
             mensaje_error.setWindowIcon(QIcon("src/recursos/smallLogo.png"))
             mensaje_error.setStandardButtons(QMessageBox.Ok ) 
             respuesta=mensaje_error.exec_()
+
+
