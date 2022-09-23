@@ -112,13 +112,13 @@ class Vista_auto(QWidget):
     def mostrar_auto(self, auto):
         self.auto=auto
         if (self.auto!=None):
-            self.texto_marca.setText(self.auto["Marca"])
-            self.texto_placa.setText(self.auto["Placa"])
-            self.texto_modelo.setText(self.auto["Modelo"])
-            self.texto_kilometraje.setText(str(self.auto["Kilometraje"]))
-            self.texto_color.setText(self.auto["Color"])
-            self.texto_cilindraje.setText(str(self.auto["Cilindraje"]))
-            self.texto_tipo_combustible.setText(self.auto["TipoCombustible"])
+            self.texto_marca.setText(self.auto["marca"])
+            self.texto_placa.setText(self.auto["placa"])
+            self.texto_modelo.setText(str(self.auto["modelo"]))
+            self.texto_kilometraje.setText(str(self.auto["kilometraje"]))
+            self.texto_color.setText(self.auto["color"])
+            self.texto_cilindraje.setText(str(self.auto["cilindraje"]))
+            self.texto_tipo_combustible.setText(self.auto["combustible"])
 
     def volver(self):
         """
@@ -141,7 +141,14 @@ class Vista_auto(QWidget):
     def error_auto(self):
         mensaje_error=QMessageBox()
         mensaje_error.setIcon(QMessageBox.Question)
-        mensaje_error.setText("Verifique que todos los campos se encuentren diligenciados y que el kilometraje este entre 0 y 999999999, cilindraje entre 0 y 999999999 y modelo mayor 1886.")
+        mensaje_error.setText("Verifique que todos los campos se encuentren diligenciados y que el kilometraje este entre 0 y 999999999,"+
+                              ", Marca mínimo sea de 6 y máximo 10 caracteres alfanuméricos"+
+                              ", Placa mínimo sea de 3 y máximo 255 caracteres alfanuméricos"+
+                              ", Modelo sea mayor a 1886"+
+                              ", Color mínimo sea de 3 hasta 255 caracteres alfanuméricos"+
+                              ", Cilindraje este entre 0 y 999999999"+
+                              ", Tipo de combustible mínimo sea de 3 hasta 255 caracteres alfanuméricos"+
+                              ", la placa u marca son unicos")
         mensaje_error.setWindowTitle("Error al guardar")
         mensaje_error.setWindowIcon(QIcon("src/recursos/smallLogo.png"))
         mensaje_error.setStandardButtons(QMessageBox.Ok ) 
