@@ -19,7 +19,8 @@ class ExampleTestCase(unittest.TestCase):
 	def test_nombre_mantenimiento_01(self):
 		mantenimientos = self.logica.dar_mantenimientos()
 		self.assertEquals(mantenimientos[1]['Nombre'], "Impuestos")
-		
+
+
     	#Prueba para verificar que el caso funciona. El nombre del método usa el prefijo test_
 	def test_nombre_mantenimiento_02(self):
 		mantenimientos = self.logica.dar_mantenimientos()
