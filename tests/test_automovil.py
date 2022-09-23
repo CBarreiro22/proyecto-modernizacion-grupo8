@@ -1,4 +1,4 @@
-import random
+
 import unittest
 
 from faker import Faker
@@ -6,7 +6,7 @@ from src.modelo.mantenimiento import Mantenimiento
 from src.auto_perfecto.auto_perfecto import auto_perfecto
 from src.modelo.automovil import Automovil
 from src.modelo.accion import Accion
-from src.modelo.declarative_base import Base, Session, engine
+from src.modelo.declarative_base import Session
 
 
 class AutomovilTestCase(unittest.TestCase):
@@ -188,7 +188,6 @@ class AutomovilTestCase(unittest.TestCase):
         self.session.add(chevrolet2)
         self.session.commit()
         self.logica.editar_auto(0, "renualt", "JXL77777", "2000", "3000", "blanco", "3000", "diesel55")
-        autos = self.logica.dar_autos()
         automovil = self.session.query(Automovil).filter(
             Automovil.placa == 'JXL77777').first()
         self.assertEqual(automovil.combustible, "diesel55")
