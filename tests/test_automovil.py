@@ -180,6 +180,19 @@ class AutomovilTestCase(unittest.TestCase):
         self.assertFalse(validacion3)
         self.assertFalse(validacion4)
 
+    def test_deberia_editar_auto_30(self):
+        chevrolet2 = Automovil(marca=self.data_factory.company(), placa="JXL77776",
+                               modelo=self.data_factory.random_int(1886, 2022),
+                               kilometraje=self.data_factory.random_int(0, 10000), color=self.data_factory.color_name(),
+                               cilindraje=self.data_factory.random_int(0, 1000), combustible="gasolina", vendido=True)
+        self.session.add(chevrolet2)
+        self.session.commit()
+        self.logica.editar_auto(0, "renualt", "JXL77777", "2000", "3000", "blanco", "3000", "diesel55")
+        autos = self.logica.dar_autos()
+        automovil = self.session.query(Automovil).filter(
+            Automovil.placa == 'JXL77777').first()
+        self.assertEqual(automovil.combustible, "diesel55")
+
     def test_borrar_auto_exitoso(self):
 
         self.logica.eliminar_auto(1)

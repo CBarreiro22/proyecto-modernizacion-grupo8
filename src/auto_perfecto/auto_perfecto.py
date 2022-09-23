@@ -38,13 +38,17 @@ class auto_perfecto():
             session.commit()
 
     def editar_auto(self, id, marca, placa, modelo, kilometraje, color, cilindraje, tipo_combustible):
-        self.autos[id]['Marca'] = marca
-        self.autos[id]['Placa'] = placa
-        self.autos[id]['Modelo'] = modelo
-        self.autos[id]['Kilometraje'] = float(kilometraje)
-        self.autos[id]['Color'] = color
-        self.autos[id]['Cilindraje'] = cilindraje
-        self.autos[id]['TipoCombustible'] = tipo_combustible
+        autos = self.dar_autos()
+        autoId = autos[id]["id"]
+        auto = session.query(Automovil).filter(Automovil.id == autoId).first()
+        auto.marca = marca
+        auto.placa = placa
+        auto.modelo = int(modelo)
+        auto.kilometraje = int(kilometraje)
+        auto.color = color
+        auto.cilindraje = int(cilindraje)
+        auto.combustible = tipo_combustible
+        session.commit()
 
     def vender_auto(self, id, kilometraje_venta, valor_venta):
         auto = self.dar_auto(id)
@@ -77,7 +81,6 @@ class auto_perfecto():
         elif self.valida_tipo_datos_auto(modelo, kilometraje, cilindraje) == False:
             return False
         elif int(modelo) < 1886:
-
             return False
         elif int(kilometraje) < 0 or int(kilometraje) > 999999999:
             return False
