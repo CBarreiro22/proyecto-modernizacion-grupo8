@@ -1,10 +1,13 @@
 '''
 Esta clase es tan sólo un mock con datos para probar la interfaz
 '''
-from datetime import datetime
+
+import numpy as np
+import datetime
 
 from sqlalchemy import desc
 
+from datetime import datetime
 from src.modelo.automovil import Automovil
 from src.modelo.mantenimiento import Mantenimiento
 from src.modelo.accion import Accion
@@ -239,6 +242,7 @@ class auto_perfecto():
         return validacion
 
     def dar_reporte_ganancias(self, id_auto):
+        year = 2022
         autos = self.dar_autos()
         auto = autos[id_auto]
         idAuto = auto["id"]
@@ -246,14 +250,18 @@ class auto_perfecto():
             sql=session.query(Accion.fecha, Accion.costo).
             filter(Accion.automovil == idAuto).statement, con=engine
         )
-        df2 = df.groupby('fecha', as_index=False)['costo'].sum()
-        total = 0.0
+        df2 = df.groupby(fecha.date.dt.year, as_index=False)['costo'].sum()
         resumenGastos = []
+        total = 0.0
         for index, row in df2.iterrows():
             tupla = (str(row["fecha"])[0:4], row['costo'])
             resumenGastos.append(tupla)
             total += row['costo']
-        resumenGastos.append(("total", total))
+            resumenGastos.append(("total", total))
+        
+        """
+        
+        
         if len(resumenGastos) > 0:
             acciones = session.query(Accion).order_by(desc(Accion.fecha)).all()
             promedio = 0.0
@@ -268,4 +276,38 @@ class auto_perfecto():
                 valorAccionMantenimiento = acciones[0].costo / \
                                            (acciones[0].kilometraje - automovil.kilometraje)
             return resumenGastos, promedioCalculado * valorAccionMantenimiento
+        """
+        acciones = [elem.__dict__ for elem in session.query(
+            Accion).filter(Accion.automovil == 3 and Accion.fecha >= datetime.date(year, 1, 1)).group_by(Accion.mantenimiento)]
+
+        kilometraje = session.query(
+            Automovil.kilometraje).filter(Automovil.id == 3).first().kilometraje
+        promedio_accion = []
+        for accion in acciones:
+            accion_mantenimientos = [elem.__dict__ for elem in session.query(Accion).
+                                     filter(Accion.mantenimiento == accion["mantenimiento"] and Accion.fecha >= datetime.date(year, 1, 1)).order_by(Accion.fecha.desc(), Accion.kilometraje.desc()).all()]
+            
+            for i in range(len(accion_mantenimientos)):
+                resultado = 0.0
+                km_ini =0.0
+                km_fin =0.0
+                if (i < len(accion_mantenimientos)-1):
+                    costo = accion_mantenimientos[i]['costo']
+                    km_ini= float(accion_mantenimientos[i]['kilometraje'])
+                    km_fin= float(accion_mantenimientos[i+1]['kilometraje'])
+                    
+                if (len(accion_mantenimientos) == 1):
+                    costo = accion_mantenimientos[i]['costo']
+                    km_ini= kilometraje
+                    km_fin=float(accion_mantenimientos[i]['kilometraje'])
+                    
+                if ((km_ini - km_fin) != 0):
+                    resultado = costo/abs(km_ini - km_fin)
+                else: 
+                    resultado = costo
+                
+                promedio_accion.append(resultado)
+                
+            gasto_km = np.mean(promedio_accion)
+            return resumenGastos, gasto_km
         return [('Total', 0)], 0
