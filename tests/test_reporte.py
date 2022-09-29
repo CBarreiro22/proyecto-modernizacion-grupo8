@@ -97,10 +97,10 @@ class Reporte_Test_Case(unittest.TestCase):
         print("probando el reporte de gastos: ")
         lista_gastos = []
         acciones = [elem.__dict__ for elem in self.session.query(
-            Accion).filter(Accion.automovil == 3 and Accion.fecha >= datetime.date(year, 1, 1)).group_by(Accion.mantenimiento)]
+            Accion).filter(Accion.automovil == 1 and Accion.fecha >= datetime.date(year, 1, 1)).group_by(Accion.mantenimiento)]
 
         kilometraje = self.session.query(
-            Automovil.kilometraje).filter(Automovil.id == 3).first().kilometraje
+            Automovil.kilometraje).filter(Automovil.id == 1).first().kilometraje
         promedio_accion = []
         for accion in acciones:
             accion_mantenimientos = [elem.__dict__ for elem in self.session.query(Accion).
@@ -128,6 +128,6 @@ class Reporte_Test_Case(unittest.TestCase):
                 promedio_accion.append(resultado)
                 
             gasto_km = np.mean(promedio_accion)
-        lista_gastos, valor_kilometro = self.logica.dar_reporte_ganancias(2)
+        lista_gastos, valor_kilometro = self.logica.dar_reporte_ganancias(1)
         self.assertGreater(valor_kilometro, 0)
         self.assertGreater(len(lista_gastos), 0)
