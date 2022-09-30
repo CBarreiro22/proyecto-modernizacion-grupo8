@@ -5,3 +5,5 @@ Espacio de trabajo del grupo 017
 [GitInspector](https://misw-4101-practicas.github.io/MISW4101-202214-Grupo017/reports)
 ## Nombres
 
+Isaí Oliva 
+David Andrés Vargas León 
