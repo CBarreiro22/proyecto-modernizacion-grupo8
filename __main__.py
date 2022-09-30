@@ -19,3 +19,4 @@ if __name__ == '__main__':
 
     app = App_AutoPerfecto(sys.argv, logica2)
     sys.exit(app.exec_())
+    
