@@ -51,3 +51,5 @@ MANIFEST
 .venv*/
 venv*/
 .vscode/settings.json
+
+.env*/
