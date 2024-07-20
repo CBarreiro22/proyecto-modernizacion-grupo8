@@ -1,0 +1,122 @@
+<div class="modal-header">
+  <h4 class="modal-title">Registrar automovil</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+  <form class="form-floating" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <div class="form-floating mb-1">
+        <input
+          formControlName="marca"
+          type="text"
+          class="form-control"
+          id="floatingInputMarca"
+          placeholder="Marca"
+          [class.is-invalid]="myForm.get('marca')?.touched && myForm.get('marca')?.invalid">
+        <label for="floatingInputMarca">Marca</label>
+        <div class="invalid-feedback" *ngIf="myForm.get('marca')?.touched && myForm.get('marca')?.invalid">
+          <small *ngIf="myForm.get('marca')?.errors?.['required']">Esto no debe estar vacio</small>
+          <small *ngIf="myForm.get('marca')?.errors?.['minlength']">La marca debe tener al menos 6 caracteres.</small>
+          <small *ngIf="myForm.get('marca')?.errors?.['maxlength']">La marca no puede tener más de 10 caracteres.</small>
+          <small *ngIf="myForm.get('marca')?.errors?.['pattern']">La marca solo puede contener caracteres alfanuméricos.</small>
+        </div>
+      </div>
+      <div class="form-floating mb-1">
+        <input
+          formControlName="placa"
+          type="text"
+          class="form-control"
+          id="floatingInputplaca"
+          placeholder="placa"
+          [class.is-invalid]="myForm.get('placa')?.touched && myForm.get('placa')?.invalid">
+        <label for="floatingInputMarca">Placa</label>
+        <div class="invalid-feedback" *ngIf="myForm.get('placa')?.touched && myForm.get('placa')?.invalid">
+          <small *ngIf="myForm.get('placa')?.errors?.['required']">Esto no debe estar vacio</small>
+          <small *ngIf="myForm.get('placa')?.errors?.['minlength']">La placa debe tener al menos 3 caracteres.</small>
+          <small *ngIf="myForm.get('placa')?.errors?.['maxlength']">La placa no puede tener más de 255 caracteres.</small>
+          <small *ngIf="myForm.get('placa')?.errors?.['pattern']">La placa solo puede contener caracteres alfanuméricos.</small>
+        </div>
+      </div>
+      <div class="form-floating mb-1">
+        <input
+          formControlName="modelo"
+          type="text"
+          class="form-control"
+          id="floatingInputmodelo"
+          placeholder="placa"
+          [class.is-invalid]="myForm.get('modelo')?.touched && myForm.get('modelo')?.invalid">
+        <label for="floatingInputMarca">Modelo</label>
+        <div class="invalid-feedback" *ngIf="myForm.get('modelo')?.touched && myForm.get('modelo')?.invalid">
+          <small *ngIf="myForm.get('modelo')?.errors?.['required']">Esto no debe estar vacio</small>
+          <small *ngIf="myForm.get('modelo')?.errors?.['min']">El modelo debe ser mayor a 1886.</small>
+        </div>
+      </div>
+      <div class="form-floating mb-1">
+        <input
+          formControlName="kilometraje"
+          type="number"
+          class="form-control"
+          id="floatingInputkilometraje"
+          placeholder="placa"
+          [class.is-invalid]="myForm.get('kilometraje')?.touched && myForm.get('kilometraje')?.invalid">
+        <label for="floatingInputMarca">Kilometraje</label>
+        <div class="invalid-feedback" *ngIf="myForm.get('kilometraje')?.touched && myForm.get('kilometraje')?.invalid">
+          <small *ngIf="myForm.get('kilometraje')?.errors?.['required']">Esto no debe estar vacio</small>
+          <small *ngIf="myForm.get('kilometraje')?.errors?.['min']">El kilometraje debe ser mayor a 0.</small>
+          <small *ngIf="myForm.get('kilometraje')?.errors?.['max']">El kilometraje debe ser menor a 999999999.</small>
+        </div>
+      </div>
+      <div class="form-floating mb-1">
+        <input
+          formControlName="color"
+          type="text"
+          class="form-control"
+          id="floatingInputcolor"
+          placeholder="color"
+          [class.is-invalid]="myForm.get('color')?.touched && myForm.get('color')?.invalid">
+        <label for="floatingInputMarca">Color</label>
+        <div class="invalid-feedback" *ngIf="myForm.get('color')?.touched && myForm.get('color')?.invalid">
+          <small *ngIf="myForm.get('color')?.errors?.['required']">Esto no debe estar vacio</small>
+          <small *ngIf="myForm.get('color')?.errors?.['minlength']">El color debe tener al menos 3 caracteres.</small>
+          <small *ngIf="myForm.get('color')?.errors?.['maxlength']">El color no puede tener más de 255 caracteres.</small>
+          <small *ngIf="myForm.get('color')?.errors?.['pattern']">El color solo puede contener caracteres alfanuméricos.</small>
+        </div>
+      </div>
+      <div class="form-floating mb-1">
+        <input
+          formControlName="cilindraje"
+          type="number"
+          class="form-control"
+          id="floatingInputCilindraje"
+          placeholder="placa"
+          [class.is-invalid]="myForm.get('cilindraje')?.touched && myForm.get('cilindraje')?.invalid">
+        <label for="floatingInputMarca">Cilindraje</label>
+        <div class="invalid-feedback" *ngIf="myForm.get('cilindraje')?.touched && myForm.get('cilindraje')?.invalid">
+          <small *ngIf="myForm.get('cilindraje')?.errors?.['required']">Esto no debe estar vacio</small>
+          <small *ngIf="myForm.get('cilindraje')?.errors?.['min']">El cilindraje debe ser mayor a 0.</small>
+          <small *ngIf="myForm.get('cilindraje')?.errors?.['max']">El cilindraje debe ser menor a 999999999.</small>
+        </div>
+      </div>
+      <div class="form-floating mb-1">
+        <input
+          formControlName="tipoDeCombustible"
+          type="text"
+          class="form-control"
+          id="floatingInputTipoDeCombustible"
+          placeholder="placa"
+          [class.is-invalid]="myForm.get('tipoDeCombustible')?.touched && myForm.get('tipoDeCombustible')?.invalid">
+        <label for="floatingInputMarca">Tipo de Combustible</label>
+        <div class="invalid-feedback" *ngIf="myForm.get('tipoDeCombustible')?.touched && myForm.get('tipoDeCombustible')?.invalid">
+          <small *ngIf="myForm.get('tipoDeCombustible')?.errors?.['required']">Esto no debe estar vacio</small>
+          <small *ngIf="myForm.get('tipoDeCombustible')?.errors?.['minlength']">El tipo de combustible debe tener al menos 3 caracteres.</small>
+          <small *ngIf="myForm.get('tipoDeCombustible')?.errors?.['maxlength']">El tipo de combustible no puede tener más de 255 caracteres.</small>
+          <small *ngIf="myForm.get('tipoDeCombustible')?.errors?.['pattern']">El tipo de combustible solo puede contener caracteres alfanuméricos.</small>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="myForm.invalid" (click)="onSubmit()">Submit</button>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+</div>
