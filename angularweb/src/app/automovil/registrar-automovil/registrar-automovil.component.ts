@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgIf} from "@angular/common";
 
@@ -15,6 +15,7 @@ import {NgIf} from "@angular/common";
 export class RegistrarAutomovilComponent implements OnInit {
   @Input() modal: any;
   myForm: FormGroup;
+  @Output() registroExitoso = new EventEmitter<boolean>();
 
   constructor(private fb: FormBuilder) {
     this.myForm = this.fb.group({
@@ -36,6 +37,7 @@ export class RegistrarAutomovilComponent implements OnInit {
 
 
   onSubmit() {
-
+    this.registroExitoso.emit(true);
+    this.modal.close()
   }
 }

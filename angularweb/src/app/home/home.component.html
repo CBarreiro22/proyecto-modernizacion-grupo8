@@ -1,3 +1,6 @@
+<div *ngIf="registroExitoso" class="alert alert-success" role="alert">
+  Registro de automóvil exitoso
+</div>
 <div class="d-flex flex-column align-items-center mt-3">
   <img ngSrc="./assets/smallLogo.png" alt="logo" class="img-fluid" height="160" width="320">
   <p class="mt-2">!!Bienvenido a Auto-perfecto!!</p>
@@ -11,7 +14,7 @@
     </button>
   </div>
   <ng-template #content let-modal>
-    <app-registrar-automovil [modal]="modal"></app-registrar-automovil>
+    <app-registrar-automovil (registroExitoso)="onRegistroExitoso($event)" [modal]="modal"></app-registrar-automovil>
   </ng-template>
 
 </div>
