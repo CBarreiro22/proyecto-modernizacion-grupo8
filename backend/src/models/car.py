@@ -12,7 +12,7 @@ class Car(Model):
     __tablename__ = 'car'
 
     brand = Column(String, doc="marca del automovil")
-    license_plate = Column(String, doc="placa del vehiculo")
+    license_plate = Column(String, nullable=False, unique=True, doc="Placa del vehículo")
     model = Column(Integer)
     kilometers = Column(Integer)
     color = Column(String)
