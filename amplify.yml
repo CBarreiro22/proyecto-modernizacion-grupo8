@@ -14,7 +14,7 @@ frontend:
         - cd angularweb
         - ng build --configuration=production
   artifacts:
-    baseDirectory: angularweb/dist/sport-app
+    baseDirectory: angularweb/dist/autoperfecto
     files:
       - '**/*'
   cache:
