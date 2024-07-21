@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgIf} from "@angular/common";
+import {AutomovilService} from "../automovil.service";
 
 @Component({
   selector: 'app-registrar-automovil',
@@ -17,7 +18,7 @@ export class RegistrarAutomovilComponent implements OnInit {
   myForm: FormGroup;
   @Output() registroExitoso = new EventEmitter<boolean>();
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private automovilService: AutomovilService ) {
     this.myForm = this.fb.group({
       marca: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(10), Validators.pattern('[a-zA-Z0-9]+')]],
       placa: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255), Validators.pattern('[a-zA-Z0-9]+')]],
@@ -37,7 +38,17 @@ export class RegistrarAutomovilComponent implements OnInit {
 
 
   onSubmit() {
-    this.registroExitoso.emit(true);
-    this.modal.close()
+    const formData = new FormData();
+    formData.append('marca', this.myForm.value.marca);
+    formData.append('placa', this.myForm.value.placa);
+    formData.append('modelo', this.myForm.value.modelo);
+    formData.append('kilometraje', this.myForm.value.kilometraje);
+    formData.append('color', this.myForm.value.color);
+    formData.append('cilindraje', this.myForm.value.cilindraje);
+    formData.append('tipoDeCombustible', this.myForm.value.tipoDeCombustible);
+    this.automovilService.registerCar(formData).subscribe(()=>{
+      this.registroExitoso.emit(true);
+      this.modal.close()
+    })
   }
 }
