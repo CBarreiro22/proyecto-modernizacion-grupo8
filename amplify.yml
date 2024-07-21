@@ -3,15 +3,21 @@ frontend:
   phases:
     preBuild:
       commands:
+        - pwd
+        - ls -la
         - cd angularweb
+        - pwd
+        - ls -la
         - npm install -g @angular/cli
         - npm ci --cache .npm --prefer-offline
         - npm install puppeteer --save-dev
         - export CHROME_BIN=$(node -e "console.log(require('puppeteer').executablePath())")
-#        - ng test --watch=false --code-coverage --browsers ChromeHeadless
+    #        - ng test --watch=false --code-coverage --browsers ChromeHeadless
     build:
       commands:
         - cd angularweb
+        - pwd
+        - ls -la
         - ng build --configuration=production
   artifacts:
     baseDirectory: angularweb/dist/browser
@@ -20,3 +26,4 @@ frontend:
   cache:
     paths:
       - angularweb/node_modules/**/*
+
