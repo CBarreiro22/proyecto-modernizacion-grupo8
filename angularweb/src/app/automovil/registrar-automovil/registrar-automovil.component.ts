@@ -13,7 +13,7 @@ import {AutomovilService} from "../automovil.service";
   templateUrl: './registrar-automovil.component.html',
   styleUrl: './registrar-automovil.component.css'
 })
-export class RegistrarAutomovilComponent implements OnInit {
+export class RegistrarAutomovilComponent {
   @Input() modal: any;
   myForm: FormGroup;
   @Output() registroExitoso = new EventEmitter<boolean>();
@@ -28,12 +28,6 @@ export class RegistrarAutomovilComponent implements OnInit {
       cilindraje: ['', [Validators.required, Validators.min(0), Validators.max(999999999)]],
       tipoDeCombustible: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255), Validators.pattern('[a-zA-Z0-9]+')]],
     });
-  }
-
-
-
-  ngOnInit() {
-
   }
 
 
