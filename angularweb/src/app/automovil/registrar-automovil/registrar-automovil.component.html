@@ -114,9 +114,8 @@
         </div>
       </div>
     </div>
-    <button type="submit" class="btn btn-secondary" [disabled]="myForm.invalid" (click)="onSubmit()"><i class="bi bi-floppy"></i> Guardar</button>
+    <div class="d-flex flex-column align-items-center mt-3">
+      <button type="submit" class="btn btn-secondary" [disabled]="myForm.invalid" (click)="onSubmit()"><i class="bi bi-floppy"></i> Guardar</button>
+    </div>
   </form>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
 </div>

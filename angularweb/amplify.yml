@@ -1,0 +1,23 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Installing Node.js version 18.19.0"
+        - nvm install 18.19.0
+        - nvm use 18.19.0
+        - npm install -g @angular/cli
+        - npm ci --cache .npm --prefer-offline
+        - npm install puppeteer --save-dev
+        - export CHROME_BIN=$(node -e "console.log(require('puppeteer').executablePath())")
+    #        - ng test --watch=false --code-coverage --browsers ChromeHeadless
+    build:
+      commands:
+        - ng build --configuration=production
+  artifacts:
+    baseDirectory: dist/angularweb/browser
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
