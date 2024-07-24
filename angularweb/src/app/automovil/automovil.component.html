@@ -6,12 +6,23 @@
   <p class="mt-2">!!Bienvenido a Auto-perfecto!!</p>
   <p>Con esta plataforma podrás llevar los gastos de tu automóvil</p>
   <div class="d-flex justify-content-center mt-3">
-    <button class="btn btn-secondary me-5" (click)="openVerticallyCentered(content)">
+    <!-- Botón para Automóvil -->
+    <button *ngIf="selectedOption === 'Automovil'" class="btn btn-secondary sizeButton me-5" (click)="openVerticallyCentered(content)">
       <i class="bi bi-plus-circle"></i> Crear Automóvil
     </button>
-    <button type="button" class="btn btn-secondary ms-5 disabled">
+
+    <!-- Botón para Mantenimiento -->
+    <button *ngIf="selectedOption === 'Mantenimiento'" class="btn btn-secondary sizeButton me-5" (click)="openVerticallyCentered2(content)">
       <i class="bi bi-plus-circle"></i> Crear Mantenimiento
     </button>
+
+    <select class="form-select ms-5" [(ngModel)]="selectedOption" aria-label="Default select example">
+      <option  value="Automovil" selected>Automóvil</option>
+      <option value="Mantenimiento">Mantenimiento</option>
+      <!-- <option value="Two">Two</option> -->
+      <!-- <option value="Three">Three</option> -->
+    </select>
+
   </div>
   <ng-template #content let-modal>
     <app-registrar-automovil (registroExitoso)="onRegistroExitoso($event)" [modal]="modal"></app-registrar-automovil>

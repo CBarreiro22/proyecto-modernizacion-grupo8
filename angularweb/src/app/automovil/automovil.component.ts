@@ -10,6 +10,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 export class AutomovilComponent {
   private modalService = inject(NgbModal);
   registroExitoso: boolean = false;
+  selectedOption: string = 'Automovil';
 
   openVerticallyCentered(content: TemplateRef<any>) {
     this.modalService.open(content, { centered: true });
@@ -25,4 +26,7 @@ export class AutomovilComponent {
     }
   }
 
+  openVerticallyCentered2(content: TemplateRef<any>) {
+
+  }
 }

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { AutomovilComponent } from './automovil.component';
 import {RegistrarAutomovilComponent} from "./registrar-automovil/registrar-automovil.component";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 
 
@@ -16,7 +16,8 @@ import {HttpClientModule} from "@angular/common/http";
     CommonModule,
     ReactiveFormsModule,
     NgOptimizedImage,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ]
 })
 export class AutomovilModule { }
