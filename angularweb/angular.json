@@ -5,7 +5,17 @@
   "projects": {
     "angularweb": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "standalone": false
+        },
+        "@schematics/angular:directive": {
+          "standalone": false
+        },
+        "@schematics/angular:pipe": {
+          "standalone": false
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -96,6 +106,6 @@
     }
   },
   "cli": {
-    "analytics": "b0e63c2c-d990-415e-a517-1f1bc9559c06"
+    "analytics": false
   }
 }

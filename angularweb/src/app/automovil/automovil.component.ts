@@ -1,20 +1,13 @@
 import {Component, inject, TemplateRef} from '@angular/core';
-import {NgIf, NgOptimizedImage} from "@angular/common";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {RegistrarAutomovilComponent} from "../automovil/registrar-automovil/registrar-automovil.component";
+
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [
-    NgOptimizedImage,
-    RegistrarAutomovilComponent,
-    NgIf
-  ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  selector: 'app-automovil',
+  templateUrl: './automovil.component.html',
+  styleUrl: './automovil.component.css'
 })
-export class HomeComponent {
+export class AutomovilComponent {
   private modalService = inject(NgbModal);
   registroExitoso: boolean = false;
 
@@ -31,4 +24,5 @@ export class HomeComponent {
       }, 2000);
     }
   }
+
 }

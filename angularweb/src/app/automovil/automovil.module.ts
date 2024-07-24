@@ -1,11 +1,22 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
+import { AutomovilComponent } from './automovil.component';
+import {RegistrarAutomovilComponent} from "./registrar-automovil/registrar-automovil.component";
+import {ReactiveFormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
+
+
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    AutomovilComponent,
+    RegistrarAutomovilComponent
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule,
+    NgOptimizedImage,
+    HttpClientModule
   ]
 })
-
 export class AutomovilModule { }

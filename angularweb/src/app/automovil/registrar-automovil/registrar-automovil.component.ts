@@ -1,15 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {NgIf} from "@angular/common";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AutomovilService} from "../automovil.service";
 
 @Component({
   selector: 'app-registrar-automovil',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    NgIf
-  ],
   templateUrl: './registrar-automovil.component.html',
   styleUrl: './registrar-automovil.component.css'
 })
@@ -32,17 +26,16 @@ export class RegistrarAutomovilComponent {
 
 
   onSubmit() {
-    const formData = new FormData();
-    formData.append('marca', this.myForm.value.marca);
-    formData.append('placa', this.myForm.value.placa);
-    formData.append('modelo', this.myForm.value.modelo);
-    formData.append('kilometraje', this.myForm.value.kilometraje);
-    formData.append('color', this.myForm.value.color);
-    formData.append('cilindraje', this.myForm.value.cilindraje);
-    formData.append('tipoDeCombustible', this.myForm.value.tipoDeCombustible);
-    this.automovilService.registerCar(formData).subscribe(()=>{
-      this.registroExitoso.emit(true);
-      this.modal.close()
-    })
+    if (this.myForm.valid) {
+      this.automovilService.registerCar(this.myForm.value).subscribe({
+        next: () => {
+          this.registroExitoso.emit(true);
+          this.modal.close();
+        },
+        error: (err) => {
+          console.error('Error registrando automóvil', err);
+        }
+      });
+    }
   }
 }
