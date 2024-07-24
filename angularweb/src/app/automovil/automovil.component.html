@@ -28,4 +28,49 @@
     <app-registrar-automovil (registroExitoso)="onRegistroExitoso($event)" [modal]="modal"></app-registrar-automovil>
   </ng-template>
 
+  <div class="container mt-5">
+    <table class="table table-hover" *ngIf="selectedOption === 'Mantenimiento'">
+      <thead>
+      <tr>
+        <th class="table-primary" scope="col">#</th>
+        <th class="table-primary" scope="col">Nombre</th>
+        <th class="table-primary" scope="col">Acción</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dato of listaOpcionesM; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ dato.nombre }}</td>
+          <td>
+            <i class="bi bi-pencil me-3 "></i>
+            <i class="bi bi-trash"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table table-hover" *ngIf="selectedOption === 'Automovil'">
+      <thead>
+      <tr>
+        <th class="table-primary" scope="col">#</th>
+        <th class="table-primary" scope="col">Placa</th>
+        <th class="table-primary" scope="col">Opciones</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dato of listaOpcionesC; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ dato.placa }}</td>
+          <td>
+            <i class="bi bi-pencil me-3 "></i>
+            <i class="bi bi-cash-coin me-3"></i>
+            <i class="bi bi-currency-exchange me-3"></i>
+            <i class="bi bi-trash"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+
 </div>

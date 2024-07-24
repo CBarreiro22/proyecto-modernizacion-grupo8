@@ -2,3 +2,21 @@
   width:400px;
   height:50px;
 }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center; /* Centramos el contenido del texto */
+}
+
+th, td {
+  padding: 8px;
+  text-align: center; /* Centramos el contenido del texto */
+}
+i {
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+i:hover {
+  color: blue;
+}
