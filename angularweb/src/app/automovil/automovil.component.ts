@@ -20,11 +20,15 @@ export class AutomovilComponent implements OnInit{
   ngOnInit() {
     this.automovilService.listCar().subscribe(resp => {
       this.listaOpcionesC = resp.message;
+      this.ordenarListaPorPlacaDescendente();
     })
   }
 
   openVerticallyCentered(content: TemplateRef<any>) {
     this.modalService.open(content, { centered: true });
+  }
+  ordenarListaPorPlacaDescendente() {
+    this.listaOpcionesC.sort((a, b) => b.placa.localeCompare(a.placa));
   }
 
   onRegistroExitoso(success: boolean) {
