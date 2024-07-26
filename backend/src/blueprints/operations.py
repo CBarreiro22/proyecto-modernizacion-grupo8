@@ -51,6 +51,45 @@ def create_car():
     return jsonify(created_car), 201, headers
 
 
+@operations_blueprint.route('/v1/car', methods=['GET'])
+def list_cars():
+    """
+        Endpoint para listar coches.
+
+        Este endpoint obtiene la variable 'placa' del query string y lista los coches
+        que coinciden con ese filtro.
+
+        Returns:
+            response (Response): Respuesta en formato JSON con los datos de los coches listados.
+    """
+    logging.info('getting cars')
+    placa = request.args.get('placa')
+    id = request.args.get('id')
+    cilindraje = request.args.get('cilindraje')
+    kilometros = request.args.get('kilometros')
+    marca = request.args.get('marca')
+    modelo = request.args.get('modelo')
+    tipo_combustible = request.args.get('tipo_combustible')
+
+    filters = {}
+    if placa:
+        filters['placa'] = placa
+    if id:
+        filters['id'] = id
+    if cilindraje:
+        filters['cilindraje'] = cilindraje
+    if kilometros:
+        filters ['kilometros'] = kilometros
+    if marca:
+        filters['marca'] = marca
+    if modelo:
+        filters['modelo'] = modelo
+    if tipo_combustible:
+        filters['tipo_combustible'] = tipo_combustible
+    cars = Cars({}).list_cars(filters)
+    return jsonify(cars), 200, headers
+
+
 def validate_new_car_schema(json_data):
     """
     Valida los datos JSON contra el esquema de un nuevo coche.

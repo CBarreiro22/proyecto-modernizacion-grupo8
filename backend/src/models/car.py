@@ -8,6 +8,19 @@ class newCarJsonSchema(Schema):
     id = fields.String()
 
 
+class CarJsonSchema(Schema):
+    id = fields.String()
+    marca = fields.String(attribute="brand")
+    placa = fields.String(attribute="license_plate")
+    modelo = fields.Integer(attribute="model")
+    kilometros = fields.Integer(attribute="kilometers")
+    color = fields.String()
+    cilindraje = fields.Integer(attribute="displacement")
+    tipo_combustible = fields.String(attribute="fuel")
+    created_at = fields.String(attribute="created_at")
+    updated_at = fields.String(attribute="updated_at")
+
+
 class Car(Model):
     __tablename__ = 'car'
 

@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 
 from src.commands.base_command import BaseCommand
 from src.errors.errors import duplicate_error, internal_server_error
-from src.models.car import Car, newCarJsonSchema
+from src.models.car import Car, newCarJsonSchema, CarJsonSchema
 from src.models.model import db_session, init_db
 
 init_db()
@@ -19,6 +19,7 @@ class Cars(BaseCommand):
         self.color = data.get('color')
         self.displacement = data.get('cilindraje')
         self.fuel = data.get('tipo_combustible')
+
 
     def create_car(self):
         try:
@@ -44,6 +45,31 @@ class Cars(BaseCommand):
             raise duplicate_error("Duplicate key error occurred")
         except Exception as e:
             logging.error("Error saving car: %s", str(e))
+            raise internal_server_error(e)
+
+    def list_cars(self, filters):
+        try:
+            with db_session() as session:
+                query = session.query(Car)
+                if 'placa' in filters:
+                    query = query.filter(Car.license_plate == filters['placa'])
+                if 'cilindraje' in filters:
+                    query = query.filter(Car.displacement == filters['cilindraje'])
+                if 'id' in filters:
+                    query = query.filter(Car.id == filters['id'])
+                if 'kilometros' in filters:
+                    query = query.filter(Car.kilometers == filters['kilometros'])
+                if 'marca' in filters:
+                    query = query.filter(Car.brand == filters['marca'])
+                if 'modelo' in filters:
+                    query = query.filter(Car.model == filters['modelo'])
+                if 'tipo_combustible' in filters:
+                    query = query.filter(Car.fuel == filters['tipo_combustible'])
+                cars = query.all()
+                car_schema = CarJsonSchema(many=True)
+                return car_schema.dump(cars)
+        except Exception as e:
+            logging.error("Error listing cars: %s", str(e))
             raise internal_server_error(e)
 
     def execute(self):
