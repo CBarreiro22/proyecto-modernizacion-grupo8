@@ -53,17 +53,17 @@
       </div>
       <div class="form-floating mb-1">
         <input
-          formControlName="kilometraje"
+          formControlName="kilometros"
           type="number"
           class="form-control"
           id="floatingInputkilometraje"
           placeholder="placa"
-          [class.is-invalid]="myForm.get('kilometraje')?.touched && myForm.get('kilometraje')?.invalid">
-        <label for="floatingInputMarca">Kilometraje</label>
-        <div class="invalid-feedback" *ngIf="myForm.get('kilometraje')?.touched && myForm.get('kilometraje')?.invalid">
-          <small *ngIf="myForm.get('kilometraje')?.errors?.['required']">Esto no debe estar vacio</small>
-          <small *ngIf="myForm.get('kilometraje')?.errors?.['min']">El kilometraje debe ser mayor a 0.</small>
-          <small *ngIf="myForm.get('kilometraje')?.errors?.['max']">El kilometraje debe ser menor a 999999999.</small>
+          [class.is-invalid]="myForm.get('kilometros')?.touched && myForm.get('kilometros')?.invalid">
+        <label for="floatingInputMarca">kilometros</label>
+        <div class="invalid-feedback" *ngIf="myForm.get('kilometros')?.touched && myForm.get('kilometros')?.invalid">
+          <small *ngIf="myForm.get('kilometros')?.errors?.['required']">Esto no debe estar vacio</small>
+          <small *ngIf="myForm.get('kilometros')?.errors?.['min']">El kilometraje debe ser mayor a 0.</small>
+          <small *ngIf="myForm.get('kilometros')?.errors?.['max']">El kilometraje debe ser menor a 999999999.</small>
         </div>
       </div>
       <div class="form-floating mb-1">
@@ -99,18 +99,18 @@
       </div>
       <div class="form-floating mb-1">
         <input
-          formControlName="tipoDeCombustible"
+          formControlName="tipo_combustible"
           type="text"
           class="form-control"
           id="floatingInputTipoDeCombustible"
           placeholder="placa"
-          [class.is-invalid]="myForm.get('tipoDeCombustible')?.touched && myForm.get('tipoDeCombustible')?.invalid">
+          [class.is-invalid]="myForm.get('tipo_combustible')?.touched && myForm.get('tipo_combustible')?.invalid">
         <label for="floatingInputMarca">Tipo de Combustible</label>
-        <div class="invalid-feedback" *ngIf="myForm.get('tipoDeCombustible')?.touched && myForm.get('tipoDeCombustible')?.invalid">
-          <small *ngIf="myForm.get('tipoDeCombustible')?.errors?.['required']">Esto no debe estar vacio</small>
-          <small *ngIf="myForm.get('tipoDeCombustible')?.errors?.['minlength']">El tipo de combustible debe tener al menos 3 caracteres.</small>
-          <small *ngIf="myForm.get('tipoDeCombustible')?.errors?.['maxlength']">El tipo de combustible no puede tener más de 255 caracteres.</small>
-          <small *ngIf="myForm.get('tipoDeCombustible')?.errors?.['pattern']">El tipo de combustible solo puede contener caracteres alfanuméricos.</small>
+        <div class="invalid-feedback" *ngIf="myForm.get('tipo_combustible')?.touched && myForm.get('tipo_combustible')?.invalid">
+          <small *ngIf="myForm.get('tipo_combustible')?.errors?.['required']">Esto no debe estar vacio</small>
+          <small *ngIf="myForm.get('tipo_combustible')?.errors?.['minlength']">El tipo de combustible debe tener al menos 3 caracteres.</small>
+          <small *ngIf="myForm.get('tipo_combustible')?.errors?.['maxlength']">El tipo de combustible no puede tener más de 255 caracteres.</small>
+          <small *ngIf="myForm.get('tipo_combustible')?.errors?.['pattern']">El tipo de combustible solo puede contener caracteres alfanuméricos.</small>
         </div>
       </div>
     </div>

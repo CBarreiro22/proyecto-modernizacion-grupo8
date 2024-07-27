@@ -17,17 +17,21 @@ export class RegistrarAutomovilComponent {
       marca: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(10), Validators.pattern('[a-zA-Z0-9]+')]],
       placa: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255), Validators.pattern('[a-zA-Z0-9]+')]],
       modelo: ['', [Validators.required, Validators.min(1886)]],
-      kilometraje: ['', [Validators.required, Validators.min(0), Validators.max(999999999)]],
+      kilometros: ['', [Validators.required, Validators.min(0), Validators.max(999999999)]],
       color: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255), Validators.pattern('[a-zA-Z0-9]+')]],
       cilindraje: ['', [Validators.required, Validators.min(0), Validators.max(999999999)]],
-      tipoDeCombustible: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255), Validators.pattern('[a-zA-Z0-9]+')]],
+      tipo_combustible: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255), Validators.pattern('[a-zA-Z0-9]+')]]
     });
   }
 
-
   onSubmit() {
     if (this.myForm.valid) {
-      this.automovilService.registerCar(this.myForm.value).subscribe({
+      const formData = this.myForm.value;
+      formData.modelo = parseInt(formData.modelo, 10);
+      formData.kilometros = parseInt(formData.kilometros, 10);
+      formData.cilindraje = parseInt(formData.cilindraje, 10);
+
+      this.automovilService.registerCar(formData).subscribe({
         next: () => {
           this.registroExitoso.emit(true);
           this.modal.close();

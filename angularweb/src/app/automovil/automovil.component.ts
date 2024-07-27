@@ -19,9 +19,18 @@ export class AutomovilComponent implements OnInit{
 
   ngOnInit() {
     this.automovilService.listCar().subscribe(resp => {
-      this.listaOpcionesC = resp.message;
-      this.ordenarListaPorPlacaDescendente();
-    })
+      if (Array.isArray(resp.message)) {
+        this.listaOpcionesC = resp.message;
+        console.log('ingreso aqui2')
+      } else {
+        console.log('ingreso aqui')
+        this.listaOpcionesC = [];
+      }
+
+      if (this.listaOpcionesC.length > 0) {
+        this.ordenarListaPorPlacaDescendente();
+      }
+    });
   }
 
   openVerticallyCentered(content: TemplateRef<any>) {
