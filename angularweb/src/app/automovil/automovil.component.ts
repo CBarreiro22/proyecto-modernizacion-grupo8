@@ -19,11 +19,9 @@ export class AutomovilComponent implements OnInit{
 
   ngOnInit() {
     this.automovilService.listCar().subscribe(resp => {
-      if (Array.isArray(resp.message)) {
-        this.listaOpcionesC = resp.message;
-        console.log('ingreso aqui2')
+      if (Array.isArray(resp)) {
+        this.listaOpcionesC = resp;
       } else {
-        console.log('ingreso aqui')
         this.listaOpcionesC = [];
       }
 
@@ -48,9 +46,5 @@ export class AutomovilComponent implements OnInit{
         this.registroExitoso = false;
       }, 2000);
     }
-  }
-
-  openVerticallyCentered2(content: TemplateRef<any>) {
-
   }
 }
